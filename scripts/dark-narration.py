@@ -6,15 +6,18 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import sys
 import edge_tts
 
 ROOT = Path(__file__).resolve().parent.parent
+EDITION = sys.argv[1] if len(sys.argv) > 1 else 'dark'
+assert EDITION in ('dark', 'editorial')
 PROBE = ROOT / "node_modules/@remotion/compositor-win32-x64-msvc/ffprobe.exe"
 
 
 async def main():
-    lines = json.loads((ROOT / "src/dark-narration.json").read_text(encoding="utf-8"))
-    target = ROOT / "public/audio/quorum-dark"
+    lines = json.loads((ROOT / f"src/{EDITION}-narration.json").read_text(encoding="utf-8"))
+    target = ROOT / f"public/audio/quorum-{EDITION}"
     target.mkdir(parents=True, exist_ok=True)
     clips = []
     for i, line in enumerate(lines):
@@ -46,9 +49,9 @@ async def main():
             captions.append({"start": round(line["start"] + offset, 3), "text": chunk})
             cursor += len(normalize(chunk))
         clips.append({"start": line["start"], "end": line["end"], "duration": duration,
-                      "file": f"audio/quorum-dark/{path.name}", "captions": captions})
+                      "file": f"audio/quorum-{EDITION}/{path.name}", "captions": captions})
         print(f"Clip {i + 1}: {duration:.3f}s; beats {[c['start'] for c in captions]}", flush=True)
-    (ROOT / "src/dark-audio.json").write_text(json.dumps(clips, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (ROOT / f"src/{EDITION}-audio.json").write_text(json.dumps(clips, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 asyncio.run(main())

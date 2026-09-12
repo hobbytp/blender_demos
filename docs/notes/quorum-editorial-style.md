@@ -1,6 +1,17 @@
 # 精致技术插画：风格帧 01
 
-用户选择：暖白背景、统一矢量风格、少量强调色、充分留白。当前仅确认方向，画面质感待用户评审；未批准本帧为最终动画设计。
+用户已确认本风格帧：暖白背景、精致技术插画、少量强调色、充分留白。2026-09-12 完成 10 秒动效测试，待用户评价节奏和表现后再扩展。
+
+## 10 秒动效测试
+
+- 预览：`http://127.0.0.1:5173/?sample=editorial`，支持播放、暂停、回看、静音。
+- 成片：`out/quorum-editorial-10s.mp4`；重新生成：`npm.cmd run render:editorial`。
+- 旁白：`npm.cmd run voice:editorial`，复用既有 Edge TTS 和逐词对齐脚本。
+- 0–1.8 秒正常通信；1.8–4 秒断开、检测；4 秒后成员视图稳定；随后展示固定门槛及两侧配置结果。时间为教学编排。
+- 服务器使用 imagegen 插画素材，SVG 负责连线、成员区域、文档与标签；不是全矢量工程。白底素材以 multiply 融合到暖色画面，后续更换深色背景时需重新处理素材。
+- 验证：5 项测试通过、TypeScript/Vite 构建通过；桌面播放/暂停/拖动正常；390px 页面无横向溢出；导出为 1920×1080、30fps、300 帧、H.264 + AAC，完整解码无错误。人工检查结尾帧的节点、电源、票数和写入标签。
+
+服务器素材提示词：提取参考帧中一台服务器，保留三分之四视角、金属灰青质感、通风格栅、两层硬盘与绿色电源灯，去除文字和连线。初次生成的棋盘格背景不是真透明，随后通过 imagegen 将背景替换为纯白，保留硬件插画不变；素材保存于 `public/art/editorial/server.png`。
 
 ![网络分区之后](../design/quorum-editorial-v1.png)
 
@@ -46,4 +57,3 @@ Exactly three nodes, labels A B C only once each as server identities. Membershi
 ```text
 Edit this educational style frame precisely. Preserve the warm ivory background, muted teal/terracotta palette, the three server illustrations, their positions, the typography, memberships, arithmetic, power LEDs, cables, and overall composition. Make ONLY these two corrections: (1) Remove both decorative potted plants completely, leaving clean uncluttered background in those places. (2) On BOTH paper document illustrations, replace the existing '/etc/pve/corosync.conf' text with the exact Chinese label 'VM 100 配置'. This is a VM configuration write example, not a Corosync configuration edit. Do not add any other text or decorative objects. Keep all other Chinese labels unchanged and perfectly legible. Preserve the 16:9 aspect ratio and the high-quality technical illustration finish.
 ```
-
