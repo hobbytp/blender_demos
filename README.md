@@ -4,6 +4,8 @@ Remotion 驱动的 PVE 图解课件。用于评审画面、节奏和因果解释
 
 验收记录：[GitHub Issue #1](https://github.com/hobbytp/blender_demos/issues/1)。原型源码保存在 `prototype/quorum-pilot` 分支。
 
+当前试讲：沿用已确认的节点内部动态风格，扩展为 75 秒七段讲解。启动后访问 http://127.0.0.1:5173/?sample=lesson ，运行 `npm.cmd run render:lesson` 导出 `out/quorum-lesson-75s.mp4`。包含神经网络中文旁白、逐句字幕、成员/仲裁/写入动态和 HA 引子。见 [75 秒试讲记录](docs/notes/quorum-lesson-75s.md)。已确认的 30 秒版保留在 `?sample=flow`，以下原始命令仍用于最初样片。
+
 新增 30 秒黑底样片：启动后访问 http://127.0.0.1:5173/?sample=dark ，包含云希中文旁白、逐句字幕和四段镜头。`npm.cmd run render:dark` 导出 `out/quorum-dark-30s.mp4`；制作方法、来源和验证命令见 [30 秒样片记录](docs/notes/quorum-dark-30s.md)。
 
 ## 播放

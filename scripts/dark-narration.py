@@ -11,7 +11,7 @@ import edge_tts
 
 ROOT = Path(__file__).resolve().parent.parent
 EDITION = sys.argv[1] if len(sys.argv) > 1 else 'dark'
-assert EDITION in ('dark', 'editorial', 'flow')
+assert EDITION in ('dark', 'editorial', 'flow', 'lesson')
 PROBE = ROOT / "node_modules/@remotion/compositor-win32-x64-msvc/ffprobe.exe"
 
 
@@ -20,6 +20,7 @@ async def main():
     target = ROOT / f"public/audio/quorum-{EDITION}"
     target.mkdir(parents=True, exist_ok=True)
     clips = []
+    overruns = []
     for i, line in enumerate(lines):
         assert all(len(chunk) <= 16 for chunk in line["chunks"])
         path = target / f"{i + 1:02}.mp3"
@@ -34,7 +35,8 @@ async def main():
         duration = float(subprocess.check_output([
             str(PROBE), "-v", "error", "-show_entries", "format=duration",
             "-of", "default=nw=1:nk=1", str(path)], text=True).strip())
-        assert duration <= line["end"] - line["start"] - .1, f"Clip {i + 1}: {duration:.2f}s exceeds slot; shorten narration."
+        if duration > line["end"] - line["start"] - .1:
+            overruns.append(f"Clip {i + 1}: {duration:.2f}s exceeds slot; shorten narration.")
         normalize = lambda text: re.sub(r"\W", "", text, flags=re.UNICODE).lower()
         word_starts = []
         cursor = 0
@@ -51,6 +53,7 @@ async def main():
         clips.append({"start": line["start"], "end": line["end"], "duration": duration,
                       "file": f"audio/quorum-{EDITION}/{path.name}", "captions": captions})
         print(f"Clip {i + 1}: {duration:.3f}s; beats {[c['start'] for c in captions]}", flush=True)
+    assert not overruns, "\n".join(overruns)
     (ROOT / f"src/{EDITION}-audio.json").write_text(json.dumps(clips, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 

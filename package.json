@@ -16,7 +16,9 @@
     "voice:editorial": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py editorial",
     "render:editorial": "remotion render src/remotion.tsx QuorumEditorial out/quorum-editorial-10s.mp4 --codec=h264 --concurrency=2",
     "voice:flow": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py flow",
-    "render:flow": "remotion render src/remotion.tsx QuorumFlow out/quorum-flow-30s.mp4 --codec=h264 --concurrency=2"
+    "render:flow": "remotion render src/remotion.tsx QuorumFlow out/quorum-flow-30s.mp4 --codec=h264 --concurrency=2",
+    "voice:lesson": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py lesson",
+    "render:lesson": "remotion render src/remotion.tsx QuorumLesson out/quorum-lesson-75s.mp4 --codec=h264 --concurrency=2"
   },
   "dependencies": {
     "@remotion/cli": "4.0.523",

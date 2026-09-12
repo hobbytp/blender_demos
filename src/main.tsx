@@ -8,14 +8,16 @@ import {darkChapters, DARK_DURATION, darkStateAt} from './dark-timeline';
 import './style.css';
 import {QuorumEditorial} from './QuorumEditorial';
 import {editorialChapters, EDITORIAL_DURATION, editorialStateAt} from './editorial-timeline';
-import {QuorumFlow} from './QuorumFlow';
+import {QuorumFlow, QuorumLesson} from './QuorumFlow';
+import {lessonChapters, LESSON_DURATION, lessonStateAt} from './lesson-timeline';
+const isLesson = new URLSearchParams(location.search).get('sample') === 'lesson';
 import {flowChapters, FLOW_DURATION, flowStateAt} from './flow-timeline';
 const isFlow = new URLSearchParams(location.search).get('sample') === 'flow';
 const isEditorial = new URLSearchParams(location.search).get('sample') === 'editorial';
 
 const isDark = new URLSearchParams(location.search).get('sample') === 'dark';
-const DURATION = isFlow ? FLOW_DURATION : isEditorial ? EDITORIAL_DURATION : isDark ? DARK_DURATION : originalDuration;
-const chapters = isFlow ? flowChapters : isEditorial ? editorialChapters : isDark ? darkChapters : originalChapters;
+const DURATION = isLesson ? LESSON_DURATION : isFlow ? FLOW_DURATION : isEditorial ? EDITORIAL_DURATION : isDark ? DARK_DURATION : originalDuration;
+const chapters = isLesson ? lessonChapters : isFlow ? flowChapters : isEditorial ? editorialChapters : isDark ? darkChapters : originalChapters;
 document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
 
 function App() {
@@ -24,26 +26,27 @@ function App() {
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
   const [error, setError] = useState('');
-  const state = isFlow ? flowStateAt(frame) : isEditorial ? editorialStateAt(frame) : isDark ? darkStateAt(frame) : stateAt(frame);
+  const state = isLesson ? lessonStateAt(frame) : isFlow ? flowStateAt(frame) : isEditorial ? editorialStateAt(frame) : isDark ? darkStateAt(frame) : stateAt(frame);
 
   useEffect(() => {
     const current = player.current!;
     const onFrame = () => setFrame(current.getCurrentFrame());
     const onPlay = () => setPlaying(true);
     const onPause = () => setPlaying(false);
+    const onEnded = () => {setFrame(DURATION - 1); setPlaying(false);};
     const onMute = () => setMuted(current.isMuted());
     const onError = () => setError('播放出现问题，请重新加载页面后重试。');
     current.addEventListener('frameupdate', onFrame);
     current.addEventListener('play', onPlay);
     current.addEventListener('pause', onPause);
-    current.addEventListener('ended', onPause);
+    current.addEventListener('ended', onEnded);
     current.addEventListener('mutechange', onMute);
     current.addEventListener('error', onError);
     return () => {
       current.removeEventListener('frameupdate', onFrame);
       current.removeEventListener('play', onPlay);
       current.removeEventListener('pause', onPause);
-      current.removeEventListener('ended', onPause);
+      current.removeEventListener('ended', onEnded);
       current.removeEventListener('mutechange', onMute);
       current.removeEventListener('error', onError);
     };
@@ -66,13 +69,13 @@ function App() {
   return <div className='page'>
     <header className='masthead'>
       <a className='brand' href='./'><span className='brand-mark'>P</span>PVE 图解课<span className='brand-note'>CLUSTER NOTES</span></a>
-      <a className='edition' href={isFlow ? './' : '?sample=flow'}>{isFlow ? '对比：最初 75 秒样片 ↗' : '观看：节点内部动态版 ↗'}</a>
+      <a className='edition' href={isLesson ? '?sample=flow' : '?sample=lesson'}>{isLesson ? '对比：30 秒动态样片 ↗' : '观看：75 秒完整试讲 ↗'}</a>
     </header>
     <main>
       <div className='intro'><div><p className='eyebrow'>从一次网络分区，理解集群协作</p><h1>{isDark ? '通信断了，谁还能写？' : '谁还能修改集群配置？'}</h1></div><p className='duration'>{DURATION / FPS} 秒<span>中文讲解 · 可暂停回看</span></p></div>
       <div className='lesson-grid'>
         <section className='player-shell' aria-label='教学动画播放器'>
-          <Player ref={player} component={isFlow ? QuorumFlow : isEditorial ? QuorumEditorial : isDark ? QuorumDark : QuorumPilot} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
+          <Player ref={player} component={isLesson ? QuorumLesson : isFlow ? QuorumFlow : isEditorial ? QuorumEditorial : isDark ? QuorumDark : QuorumPilot} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
           <div className='controls'>
             <button className='play-button' onClick={toggle} aria-label={playing ? '暂停' : '播放'}>{playing ? 'Ⅱ 暂停' : '▶ 播放'}</button>
             <button className='icon-button' onClick={() => seek(0)} aria-label='重播'>↺</button>

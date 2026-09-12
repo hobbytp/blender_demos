@@ -1,0 +1,222 @@
+[
+  {
+    "start": 0.3,
+    "end": 6.8,
+    "duration": 4.896,
+    "file": "audio/quorum-lesson/01.mp3",
+    "captions": [
+      {
+        "start": 0.396,
+        "text": "三台机器都开着，"
+      },
+      {
+        "start": 2.075,
+        "text": "为什么有一台，"
+      },
+      {
+        "start": 3.186,
+        "text": "不能修改集群配置？"
+      }
+    ]
+  },
+  {
+    "start": 7.2,
+    "end": 12.7,
+    "duration": 5.376,
+    "file": "audio/quorum-lesson/02.mp3",
+    "captions": [
+      {
+        "start": 7.296,
+        "text": "打开节点。"
+      },
+      {
+        "start": 8.786,
+        "text": "通信层交换消息，"
+      },
+      {
+        "start": 10.313,
+        "text": "成员视图记录伙伴。"
+      }
+    ]
+  },
+  {
+    "start": 13,
+    "end": 19.8,
+    "duration": 5.712,
+    "file": "audio/quorum-lesson/03.mp3",
+    "captions": [
+      {
+        "start": 13.096,
+        "text": "仲裁组件判断票数。"
+      },
+      {
+        "start": 15.153,
+        "text": "文件系统接收状态，"
+      },
+      {
+        "start": 16.831,
+        "text": "控制配置写入。"
+      }
+    ]
+  },
+  {
+    "start": 20.3,
+    "end": 25.3,
+    "duration": 4.728,
+    "file": "audio/quorum-lesson/04.mp3",
+    "captions": [
+      {
+        "start": 20.396,
+        "text": "现在，到C的通信断了。"
+      },
+      {
+        "start": 22.858,
+        "text": "电源灯依然亮着。"
+      }
+    ]
+  },
+  {
+    "start": 25.5,
+    "end": 29.8,
+    "duration": 3.72,
+    "file": "audio/quorum-lesson/05.mp3",
+    "captions": [
+      {
+        "start": 25.596,
+        "text": "先检测异常，"
+      },
+      {
+        "start": 26.893,
+        "text": "再重新建立成员关系。"
+      }
+    ]
+  },
+  {
+    "start": 30.4,
+    "end": 36.8,
+    "duration": 5.904,
+    "file": "audio/quorum-lesson/06.mp3",
+    "captions": [
+      {
+        "start": 30.496,
+        "text": "A和B看见彼此，"
+      },
+      {
+        "start": 32.047,
+        "text": "C只看见自己。"
+      },
+      {
+        "start": 33.791,
+        "text": "这是各自的成员视图。"
+      }
+    ]
+  },
+  {
+    "start": 37,
+    "end": 42.8,
+    "duration": 5.232,
+    "file": "audio/quorum-lesson/07.mp3",
+    "captions": [
+      {
+        "start": 37.096,
+        "text": "成员信息传给仲裁组件。"
+      },
+      {
+        "start": 39.685,
+        "text": "预期总票数仍是三。"
+      }
+    ]
+  },
+  {
+    "start": 43.3,
+    "end": 48.4,
+    "duration": 4.56,
+    "file": "audio/quorum-lesson/08.mp3",
+    "captions": [
+      {
+        "start": 43.396,
+        "text": "门槛是两票。"
+      },
+      {
+        "start": 45.048,
+        "text": "两票满足，"
+      },
+      {
+        "start": 46.275,
+        "text": "一票不足。"
+      }
+    ]
+  },
+  {
+    "start": 48.6,
+    "end": 54.8,
+    "duration": 6.072,
+    "file": "audio/quorum-lesson/09.mp3",
+    "captions": [
+      {
+        "start": 48.696,
+        "text": "仲裁状态传给文件系统。"
+      },
+      {
+        "start": 51.308,
+        "text": "多数侧可写，"
+      },
+      {
+        "start": 52.512,
+        "text": "少数侧转为只读。"
+      }
+    ]
+  },
+  {
+    "start": 55.4,
+    "end": 60.3,
+    "duration": 4.584,
+    "file": "audio/quorum-lesson/10.mp3",
+    "captions": [
+      {
+        "start": 55.496,
+        "text": "修改同一虚拟机的描述。"
+      },
+      {
+        "start": 57.692,
+        "text": "请求进入文件系统。"
+      }
+    ]
+  },
+  {
+    "start": 60.5,
+    "end": 66.7,
+    "duration": 5.16,
+    "file": "audio/quorum-lesson/11.mp3",
+    "captions": [
+      {
+        "start": 60.596,
+        "text": "A侧保存，"
+      },
+      {
+        "start": 61.765,
+        "text": "C侧拒绝。"
+      },
+      {
+        "start": 63.231,
+        "text": "写入无需重新投票。"
+      }
+    ]
+  },
+  {
+    "start": 67.2,
+    "end": 74.8,
+    "duration": 5.712,
+    "file": "audio/quorum-lesson/12.mp3",
+    "captions": [
+      {
+        "start": 67.296,
+        "text": "这就是完整的因果链。"
+      },
+      {
+        "start": 69.283,
+        "text": "配置只读，不等于虚拟机立即停止。"
+      }
+    ]
+  }
+]
