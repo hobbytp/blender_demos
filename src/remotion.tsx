@@ -5,9 +5,12 @@ import {QuorumDark} from './QuorumDark';
 import {DARK_DURATION} from './dark-timeline';
 import {QuorumEditorial} from './QuorumEditorial';
 import {EDITORIAL_DURATION} from './editorial-timeline';
+import {QuorumFlow} from './QuorumFlow';
+import {FLOW_DURATION} from './flow-timeline';
 
 function Root() {
   return <>
+    <Composition id='QuorumFlow' component={QuorumFlow} durationInFrames={FLOW_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='QuorumEditorial' component={QuorumEditorial} durationInFrames={EDITORIAL_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='QuorumPilot' component={QuorumPilot} durationInFrames={DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='QuorumDark' component={QuorumDark} durationInFrames={DARK_DURATION} fps={FPS} width={1920} height={1080}/>

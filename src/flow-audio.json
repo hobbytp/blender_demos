@@ -1,0 +1,94 @@
+[
+  {
+    "start": 0.3,
+    "end": 7.8,
+    "duration": 7.344,
+    "file": "audio/quorum-flow/01.mp3",
+    "captions": [
+      {
+        "start": 0.396,
+        "text": "打开节点，"
+      },
+      {
+        "start": 1.345,
+        "text": "看消息怎样影响配置。"
+      },
+      {
+        "start": 3.437,
+        "text": "通信、成员管理和仲裁，"
+      },
+      {
+        "start": 5.867,
+        "text": "都在内部协作。"
+      }
+    ]
+  },
+  {
+    "start": 8.1,
+    "end": 14.1,
+    "duration": 5.232,
+    "file": "audio/quorum-flow/02.mp3",
+    "captions": [
+      {
+        "start": 8.196,
+        "text": "到C的通信中断。"
+      },
+      {
+        "start": 10.033,
+        "text": "经过检测，"
+      },
+      {
+        "start": 11.028,
+        "text": "成员关系重新建立。"
+      }
+    ]
+  },
+  {
+    "start": 14.3,
+    "end": 21.9,
+    "duration": 6.984,
+    "file": "audio/quorum-flow/03.mp3",
+    "captions": [
+      {
+        "start": 14.396,
+        "text": "左侧两票，"
+      },
+      {
+        "start": 15.565,
+        "text": "右侧一票。"
+      },
+      {
+        "start": 16.893,
+        "text": "门槛仍是两票，"
+      },
+      {
+        "start": 18.606,
+        "text": "仲裁状态传给文件系统。"
+      }
+    ]
+  },
+  {
+    "start": 22.2,
+    "end": 29.9,
+    "duration": 7.248,
+    "file": "audio/quorum-flow/04.mp3",
+    "captions": [
+      {
+        "start": 22.296,
+        "text": "写入同一配置。"
+      },
+      {
+        "start": 23.948,
+        "text": "多数侧保存；"
+      },
+      {
+        "start": 25.302,
+        "text": "C侧只读，拒绝写入。"
+      },
+      {
+        "start": 27.64,
+        "text": "电源仍亮着。"
+      }
+    ]
+  }
+]

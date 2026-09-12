@@ -8,11 +8,14 @@ import {darkChapters, DARK_DURATION, darkStateAt} from './dark-timeline';
 import './style.css';
 import {QuorumEditorial} from './QuorumEditorial';
 import {editorialChapters, EDITORIAL_DURATION, editorialStateAt} from './editorial-timeline';
+import {QuorumFlow} from './QuorumFlow';
+import {flowChapters, FLOW_DURATION, flowStateAt} from './flow-timeline';
+const isFlow = new URLSearchParams(location.search).get('sample') === 'flow';
 const isEditorial = new URLSearchParams(location.search).get('sample') === 'editorial';
 
 const isDark = new URLSearchParams(location.search).get('sample') === 'dark';
-const DURATION = isEditorial ? EDITORIAL_DURATION : isDark ? DARK_DURATION : originalDuration;
-const chapters = isEditorial ? editorialChapters : isDark ? darkChapters : originalChapters;
+const DURATION = isFlow ? FLOW_DURATION : isEditorial ? EDITORIAL_DURATION : isDark ? DARK_DURATION : originalDuration;
+const chapters = isFlow ? flowChapters : isEditorial ? editorialChapters : isDark ? darkChapters : originalChapters;
 document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
 
 function App() {
@@ -21,7 +24,7 @@ function App() {
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
   const [error, setError] = useState('');
-  const state = isEditorial ? editorialStateAt(frame) : isDark ? darkStateAt(frame) : stateAt(frame);
+  const state = isFlow ? flowStateAt(frame) : isEditorial ? editorialStateAt(frame) : isDark ? darkStateAt(frame) : stateAt(frame);
 
   useEffect(() => {
     const current = player.current!;
@@ -63,13 +66,13 @@ function App() {
   return <div className='page'>
     <header className='masthead'>
       <a className='brand' href='./'><span className='brand-mark'>P</span>PVE 图解课<span className='brand-note'>CLUSTER NOTES</span></a>
-      <a className='edition' href={isDark ? './' : '?sample=dark'}>{isDark ? '对比：75 秒浅色版 ↗' : '观看：30 秒新版 ↗'}</a>
+      <a className='edition' href={isFlow ? './' : '?sample=flow'}>{isFlow ? '对比：最初 75 秒样片 ↗' : '观看：节点内部动态版 ↗'}</a>
     </header>
     <main>
       <div className='intro'><div><p className='eyebrow'>从一次网络分区，理解集群协作</p><h1>{isDark ? '通信断了，谁还能写？' : '谁还能修改集群配置？'}</h1></div><p className='duration'>{DURATION / FPS} 秒<span>中文讲解 · 可暂停回看</span></p></div>
       <div className='lesson-grid'>
         <section className='player-shell' aria-label='教学动画播放器'>
-          <Player ref={player} component={isEditorial ? QuorumEditorial : isDark ? QuorumDark : QuorumPilot} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
+          <Player ref={player} component={isFlow ? QuorumFlow : isEditorial ? QuorumEditorial : isDark ? QuorumDark : QuorumPilot} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
           <div className='controls'>
             <button className='play-button' onClick={toggle} aria-label={playing ? '暂停' : '播放'}>{playing ? 'Ⅱ 暂停' : '▶ 播放'}</button>
             <button className='icon-button' onClick={() => seek(0)} aria-label='重播'>↺</button>
