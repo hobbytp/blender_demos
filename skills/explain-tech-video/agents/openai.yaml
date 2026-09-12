@@ -1,0 +1,4 @@
+interface:
+  display_name: "技术机制动画"
+  short_description: "将技术架构与内部协作做成可验证、可回看的数据流教学动画"
+  default_prompt: "用 $explain-tech-video 将这个技术主题制作成逐层展开的教学动画，重点展示内部组件、状态变化与数据流向，并从已有确认阶段继续。"
