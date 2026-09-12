@@ -1,0 +1,26 @@
+{
+  "name": "corosync-quorum-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173",
+    "build": "tsc --noEmit && vite build",
+    "test": "node --test tests/timeline.test.ts",
+    "voice": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/narration.ps1",
+    "studio": "remotion studio src/remotion.tsx",
+    "render": "remotion render src/remotion.tsx QuorumPilot out/quorum-pilot.mp4 --codec=h264 --concurrency=2",
+    "still": "remotion still src/remotion.tsx QuorumPilot out/quorum-pilot.png --frame=1740"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.523",
+    "@remotion/player": "4.0.523",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.523",
+    "typescript": "5.9.3",
+    "vite": "8.3.0"
+  }
+}
