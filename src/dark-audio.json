@@ -1,0 +1,94 @@
+[
+  {
+    "start": 0.3,
+    "end": 7,
+    "duration": 5.928,
+    "file": "audio/quorum-dark/01.mp3",
+    "captions": [
+      {
+        "start": 0.396,
+        "text": "机器还开着，"
+      },
+      {
+        "start": 1.646,
+        "text": "集群通信却断了。"
+      },
+      {
+        "start": 3.298,
+        "text": "经过检测，"
+      },
+      {
+        "start": 4.293,
+        "text": "成员视图改变。"
+      }
+    ]
+  },
+  {
+    "start": 7.1,
+    "end": 14,
+    "duration": 6.144,
+    "file": "audio/quorum-dark/02.mp3",
+    "captions": [
+      {
+        "start": 7.196,
+        "text": "A、B只看见彼此；"
+      },
+      {
+        "start": 9.152,
+        "text": "C只看见自己。"
+      },
+      {
+        "start": 10.873,
+        "text": "每个节点，一票。"
+      }
+    ]
+  },
+  {
+    "start": 14.1,
+    "end": 22,
+    "duration": 7.008,
+    "file": "audio/quorum-dark/03.mp3",
+    "captions": [
+      {
+        "start": 14.196,
+        "text": "预期总票数仍是三，"
+      },
+      {
+        "start": 16.106,
+        "text": "门槛仍是两票。"
+      },
+      {
+        "start": 17.966,
+        "text": "两票达到仲裁，"
+      },
+      {
+        "start": 19.621,
+        "text": "一票不够。"
+      }
+    ]
+  },
+  {
+    "start": 22.1,
+    "end": 30,
+    "duration": 6.624,
+    "file": "audio/quorum-dark/04.mp3",
+    "captions": [
+      {
+        "start": 22.196,
+        "text": "所以，同一份配置，"
+      },
+      {
+        "start": 23.99,
+        "text": "多数侧可以写入；"
+      },
+      {
+        "start": 25.368,
+        "text": "C侧的集群文件系统，"
+      },
+      {
+        "start": 27.092,
+        "text": "转为只读。"
+      }
+    ]
+  }
+]

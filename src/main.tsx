@@ -2,8 +2,15 @@ import {useEffect, useRef, useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Player, type PlayerRef} from '@remotion/player';
 import {QuorumPilot} from './QuorumPilot';
-import {chapters, DURATION, FPS, stateAt} from './timeline';
+import {chapters as originalChapters, DURATION as originalDuration, FPS, stateAt} from './timeline';
+import {QuorumDark} from './QuorumDark';
+import {darkChapters, DARK_DURATION, darkStateAt} from './dark-timeline';
 import './style.css';
+
+const isDark = new URLSearchParams(location.search).get('sample') === 'dark';
+const DURATION = isDark ? DARK_DURATION : originalDuration;
+const chapters = isDark ? darkChapters : originalChapters;
+document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
 
 function App() {
   const player = useRef<PlayerRef>(null);
@@ -11,7 +18,7 @@ function App() {
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
   const [error, setError] = useState('');
-  const state = stateAt(frame);
+  const state = isDark ? darkStateAt(frame) : stateAt(frame);
 
   useEffect(() => {
     const current = player.current!;
@@ -53,18 +60,18 @@ function App() {
   return <div className='page'>
     <header className='masthead'>
       <a className='brand' href='./'><span className='brand-mark'>P</span>PVE 图解课<span className='brand-note'>CLUSTER NOTES</span></a>
-      <span className='edition'>01 / 原理样片</span>
+      <a className='edition' href={isDark ? './' : '?sample=dark'}>{isDark ? '对比：75 秒浅色版 ↗' : '观看：30 秒新版 ↗'}</a>
     </header>
     <main>
-      <div className='intro'><div><p className='eyebrow'>从一次网络分区，理解集群协作</p><h1>谁还能修改集群配置？</h1></div><p className='duration'>75 秒<span>中文讲解 · 可暂停回看</span></p></div>
+      <div className='intro'><div><p className='eyebrow'>从一次网络分区，理解集群协作</p><h1>{isDark ? '通信断了，谁还能写？' : '谁还能修改集群配置？'}</h1></div><p className='duration'>{DURATION / FPS} 秒<span>中文讲解 · 可暂停回看</span></p></div>
       <div className='lesson-grid'>
         <section className='player-shell' aria-label='教学动画播放器'>
-          <Player ref={player} component={QuorumPilot} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
+          <Player ref={player} component={isDark ? QuorumDark : QuorumPilot} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
           <div className='controls'>
             <button className='play-button' onClick={toggle} aria-label={playing ? '暂停' : '播放'}>{playing ? 'Ⅱ 暂停' : '▶ 播放'}</button>
             <button className='icon-button' onClick={() => seek(0)} aria-label='重播'>↺</button>
             <input aria-label='播放进度' type='range' min={0} max={DURATION - 1} value={frame} onChange={(event) => seek(Number(event.target.value))}/>
-            <output className='time'>{String(Math.floor(frame / FPS)).padStart(2, '0')} / 75</output>
+            <output className='time'>{String(Math.floor(frame / FPS)).padStart(2, '0')} / {DURATION / FPS}</output>
             <button className='sound-button' onClick={() => {muted ? player.current!.unmute() : player.current!.mute();}} aria-pressed={!muted} aria-label={muted ? '开启旁白' : '静音'}>{muted ? '旁白关' : '旁白开'}</button>
           </div>
           {error && <p role='alert' className='error'>{error}</p>}

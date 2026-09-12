@@ -41,6 +41,16 @@ input[type=range] { flex: 1; min-width: 40px; accent-color: #285c49; cursor: poi
 .sources a { margin-right: 25px; text-underline-offset: 4px; }
 footer { display: flex; justify-content: space-between; border-top: 1px solid #dfe3db; padding: 22px 0; color: #819087; font-size: 11px; letter-spacing: 1px; }
 .error { color: #a5362b; padding: 0 20px; }
+:root[data-theme=dark] { color: #ece9f4; background: #101015; }
+[data-theme=dark] .masthead, [data-theme=dark] footer, [data-theme=dark] .chapter-help { border-color: #302936; }
+[data-theme=dark] .player-shell { background: #090a10; border-color: #37303f; box-shadow: 0 20px 70px #0005; }
+[data-theme=dark] .controls { border-color: #302936; }
+[data-theme=dark] .brand-mark, [data-theme=dark] .play-button { background: #7149b4; }
+[data-theme=dark] .eyebrow, [data-theme=dark] .section-label { color: #bba0e4; }
+[data-theme=dark] .chapters button, [data-theme=dark] .sound-button, [data-theme=dark] .icon-button { color: #aaa1ba; }
+[data-theme=dark] .chapters button[aria-current], [data-theme=dark] .chapters button:hover { background: #2c213e; color: #dbc4ff; }
+[data-theme=dark] .time, [data-theme=dark] .lesson-foot, [data-theme=dark] .sources, [data-theme=dark] .edition, [data-theme=dark] .chapter-help { color: #9c93a8; }
+[data-theme=dark] input[type=range] { accent-color: #a875ef; }
 @media (max-width: 1000px) {
   .page { padding: 0 24px; }
   .lesson-grid { grid-template-columns: 1fr; gap: 16px; }

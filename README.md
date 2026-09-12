@@ -4,6 +4,8 @@ Remotion 驱动的 PVE 图解课件。用于评审画面、节奏和因果解释
 
 验收记录：[GitHub Issue #1](https://github.com/hobbytp/blender_demos/issues/1)。原型源码保存在 `prototype/quorum-pilot` 分支。
 
+新增 30 秒黑底样片：启动后访问 http://127.0.0.1:5173/?sample=dark ，包含云希中文旁白、逐句字幕和四段镜头。`npm.cmd run render:dark` 导出 `out/quorum-dark-30s.mp4`；制作方法、来源和验证命令见 [30 秒样片记录](docs/notes/quorum-dark-30s.md)。
+
 ## 播放
 
 需要 Node.js 24 和 npm。
