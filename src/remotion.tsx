@@ -13,9 +13,12 @@ import {HaLesson} from './HaLesson';
 import {HA_LESSON_DURATION} from './ha-lesson-timeline';
 import {MigrationPilot} from './MigrationPilot';
 import {MIGRATION_DURATION} from './migration-timeline';
+import {MigrationLesson} from './MigrationLesson';
+import {MIGRATION_LESSON_DURATION} from './migration-lesson-timeline';
 
 function Root() {
   return <>
+    <Composition id='MigrationLesson' component={MigrationLesson} durationInFrames={MIGRATION_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='MigrationPilot' component={MigrationPilot} defaultProps={{failed:false}} durationInFrames={MIGRATION_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='HaLesson' component={HaLesson} defaultProps={{normal:false}} durationInFrames={HA_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='HaPilot' component={HaPilot} defaultProps={{normal:false}} durationInFrames={HA_DURATION} fps={FPS} width={1920} height={1080}/>
