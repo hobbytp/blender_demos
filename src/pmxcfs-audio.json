@@ -1,0 +1,82 @@
+[
+  {
+    "start": 0.3,
+    "end": 7.4,
+    "duration": 6.552,
+    "file": "audio/quorum-pmxcfs/01.mp3",
+    "captions": [
+      {
+        "start": 0.396,
+        "text": "写入先到本机文件系统。"
+      },
+      {
+        "start": 2.707,
+        "text": "通过仲裁检查，"
+      },
+      {
+        "start": 4.166,
+        "text": "再把操作送入集群通信。"
+      }
+    ]
+  },
+  {
+    "start": 7.6,
+    "end": 15,
+    "duration": 6.216,
+    "file": "audio/quorum-pmxcfs/02.mp3",
+    "captions": [
+      {
+        "start": 7.696,
+        "text": "各节点按一致顺序接收操作，"
+      },
+      {
+        "start": 10.289,
+        "text": "再更新自己的内存状态，"
+      },
+      {
+        "start": 12.013,
+        "text": "和本地数据库。"
+      }
+    ]
+  },
+  {
+    "start": 15.3,
+    "end": 22.7,
+    "duration": 6.36,
+    "file": "audio/quorum-pmxcfs/03.mp3",
+    "captions": [
+      {
+        "start": 15.396,
+        "text": "本机处理自己的消息后，"
+      },
+      {
+        "start": 17.075,
+        "text": "写调用返回结果。"
+      },
+      {
+        "start": 18.865,
+        "text": "这不是逐台收集落盘回执。"
+      }
+    ]
+  },
+  {
+    "start": 23,
+    "end": 29.9,
+    "duration": 6.072,
+    "file": "audio/quorum-pmxcfs/04.mp3",
+    "captions": [
+      {
+        "start": 23.096,
+        "text": "无仲裁时，写入被拒绝。"
+      },
+      {
+        "start": 25.766,
+        "text": "旧配置仍可读，"
+      },
+      {
+        "start": 27.132,
+        "text": "虚拟磁盘不在这里。"
+      }
+    ]
+  }
+]

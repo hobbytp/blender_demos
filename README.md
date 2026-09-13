@@ -8,6 +8,8 @@ Remotion 驱动的 PVE 图解课件。用于评审画面、节奏和因果解释
 
 可复用制作方法已整理为 [explain-tech-video skill](skills/explain-tech-video/SKILL.md)，涵盖机制建模、分阶段样片、内部数据流动画和成片验收。安装后可调用：`用 $explain-tech-video 制作缓存命中与回源的教学动画，先验证一段请求与响应完整流动的样片。`
 
+第三集 pmxcfs：[完整讲稿与分镜](docs/notes/pve-ep03-pmxcfs.md)、[30 秒机制样片](docs/notes/pmxcfs-30s.md)。访问 `?sample=pmxcfs`，支持正常机制与无 quorum 对照；`npm.cmd run render:pmxcfs` 导出 `out/pmxcfs-30s-v1.mp4`。
+
 当前试讲：沿用已确认的节点内部动态风格，扩展为 75 秒七段讲解。启动后访问 http://127.0.0.1:5173/?sample=lesson ，运行 `npm.cmd run render:lesson` 导出 `out/quorum-lesson-75s.mp4`。包含神经网络中文旁白、逐句字幕、成员/仲裁/写入动态和 HA 引子。见 [75 秒试讲记录](docs/notes/quorum-lesson-75s.md)。已确认的 30 秒版保留在 `?sample=flow`，以下原始命令仍用于最初样片。
 
 新增 30 秒黑底样片：启动后访问 http://127.0.0.1:5173/?sample=dark ，包含云希中文旁白、逐句字幕和四段镜头。`npm.cmd run render:dark` 导出 `out/quorum-dark-30s.mp4`；制作方法、来源和验证命令见 [30 秒样片记录](docs/notes/quorum-dark-30s.md)。
