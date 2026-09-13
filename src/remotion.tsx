@@ -9,9 +9,12 @@ import {QuorumFlow, QuorumLesson} from './QuorumFlow';
 import {FLOW_DURATION} from './flow-timeline';
 import {HaPilot} from './HaPilot';
 import {HA_DURATION} from './ha-timeline';
+import {HaLesson} from './HaLesson';
+import {HA_LESSON_DURATION} from './ha-lesson-timeline';
 
 function Root() {
   return <>
+    <Composition id='HaLesson' component={HaLesson} defaultProps={{normal:false}} durationInFrames={HA_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='HaPilot' component={HaPilot} defaultProps={{normal:false}} durationInFrames={HA_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='QuorumLesson' component={QuorumLesson} durationInFrames={DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='QuorumFlow' component={QuorumFlow} durationInFrames={FLOW_DURATION} fps={FPS} width={1920} height={1080}/>

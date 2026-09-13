@@ -5,14 +5,14 @@ import {HA_DURATION, haBeats, haStateAt} from './ha-timeline';
 
 const ink='#243f4b', green='#347d70', blue='#347aa8', amber='#b18635', red='#b96b50', muted='#73847e', paper='#f8f7f2';
 const ramp=(f:number,start:number,length=20)=>Math.max(0,Math.min(1,(f-start)/length));
-function Text({x,y,children,size=24,color=ink,bold=false,center=false}:{x:number;y:number;children:ReactNode;size?:number;color?:string;bold?:boolean;center?:boolean}) {
+export function Text({x,y,children,size=24,color=ink,bold=false,center=false}:{x:number;y:number;children:ReactNode;size?:number;color?:string;bold?:boolean;center?:boolean}) {
   return <text x={x} y={y} fontSize={size} fill={color} fontWeight={bold?700:400} textAnchor={center?'middle':'start'}>{children}</text>;
 }
-function Card({x,y,w,title,value,color=blue,small=false}:{x:number;y:number;w:number;title:string;value:string;color?:string;small?:boolean}) {
+export function Card({x,y,w,title,value,color=blue,small=false}:{x:number;y:number;w:number;title:string;value:string;color?:string;small?:boolean}) {
   return <g><rect x={x} y={y} width={w} height={90} rx={12} fill='#fffefa' stroke={color} strokeWidth={1.6}/><Text x={x+20} y={y+32} size={22} bold color={color}>{title}</Text><Text x={x+20} y={y+67} size={small?21:26} bold>{value}</Text></g>;
 }
 // All particles derive from the current frame, including reverse seeking.
-function Wire({points,frame,active=false,color=amber,dashed=false,progress}:{points:number[][];frame:number;active?:boolean;color?:string;dashed?:boolean;progress?:number}) {
+export function Wire({points,frame,active=false,color=amber,dashed=false,progress}:{points:number[][];frame:number;active?:boolean;color?:string;dashed?:boolean;progress?:number}) {
   const lengths=points.slice(1).map((p,i)=>Math.hypot(p[0]-points[i][0],p[1]-points[i][1]));
   let distance=(progress??((frame%48)/48))*lengths.reduce((a,b)=>a+b,0), x=points[0][0],y=points[0][1];
   for(let i=0;i<lengths.length;i++) {const t=Math.min(1,distance/lengths[i]);x=points[i][0]+t*(points[i+1][0]-points[i][0]);y=points[i][1]+t*(points[i+1][1]-points[i][1]);if(distance<=lengths[i])break;distance-=lengths[i];}

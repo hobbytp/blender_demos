@@ -1,6 +1,6 @@
 # PVE 01：节点失联但 VM 还在运行，何时才敢接管？
 
-状态：首集完整脚本与分镜，2026-09-13。用户批准继续后，已完成[30 秒机制样片与验证](ha-fencing-30s.md)；本稿的 7 分钟全片尚未制作，也未实施故障实验。关联主题 B4，难度 10 / 学习优先级 10；项目跟踪见 [Issue #1](https://github.com/hobbytp/blender_demos/issues/1)。
+状态：首集完整脚本与分镜，2026-09-13。已完成[30 秒机制样片与验证](ha-fencing-30s.md)，并交付 [7 分钟完整课件及 MP4 v1](ha-fencing-7min.md)，待全片教学效果评审；尚未实施故障实验。关联主题 B4，难度 10 / 学习优先级 10；项目跟踪见 [Issue #1](https://github.com/hobbytp/blender_demos/issues/1)。
 
 ## 本集学习目标与场景
 

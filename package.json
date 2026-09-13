@@ -19,6 +19,8 @@
     "render:flow": "remotion render src/remotion.tsx QuorumFlow out/quorum-flow-30s.mp4 --codec=h264 --concurrency=2",
     "voice:lesson": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py lesson",
     "render:lesson": "remotion render src/remotion.tsx QuorumLesson out/quorum-lesson-75s.mp4 --codec=h264 --concurrency=2",
+    "voice:ha-lesson": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py ha-lesson",
+    "render:ha-lesson": "remotion render src/remotion.tsx HaLesson out/ha-fencing-7min-v1.mp4 --codec=h264 --concurrency=2",
     "voice:ha": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py ha",
     "render:ha": "remotion render src/remotion.tsx HaPilot out/ha-fencing-30s.mp4 --codec=h264 --concurrency=2"
   },
