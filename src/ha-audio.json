@@ -1,0 +1,90 @@
+[
+  {
+    "start": 0.3,
+    "end": 7.4,
+    "duration": 5.784,
+    "file": "audio/quorum-ha/01.mp3",
+    "captions": [
+      {
+        "start": 0.396,
+        "text": "通信断开，"
+      },
+      {
+        "start": 1.392,
+        "text": "C失去仲裁。"
+      },
+      {
+        "start": 3.02,
+        "text": "续锁失败，"
+      },
+      {
+        "start": 4.038,
+        "text": "虚拟机却还在运行。"
+      }
+    ]
+  },
+  {
+    "start": 7.6,
+    "end": 15.1,
+    "duration": 6.816,
+    "file": "audio/quorum-ha/02.mp3",
+    "captions": [
+      {
+        "start": 7.696,
+        "text": "本地续期中止。"
+      },
+      {
+        "start": 9.498,
+        "text": "复用器停止喂狗，"
+      },
+      {
+        "start": 11.304,
+        "text": "主机随后复位，"
+      },
+      {
+        "start": 12.554,
+        "text": "旧实例停止。"
+      }
+    ]
+  },
+  {
+    "start": 15.4,
+    "end": 23.1,
+    "duration": 5.784,
+    "file": "audio/quorum-ha/03.mp3",
+    "captions": [
+      {
+        "start": 15.496,
+        "text": "多数侧仍需等待。"
+      },
+      {
+        "start": 17.391,
+        "text": "取得旧节点的锁，"
+      },
+      {
+        "start": 18.78,
+        "text": "才确认隔离条件成立。"
+      }
+    ]
+  },
+  {
+    "start": 23.4,
+    "end": 29.9,
+    "duration": 5.76,
+    "file": "audio/quorum-ha/04.mp3",
+    "captions": [
+      {
+        "start": 23.496,
+        "text": "资源进入恢复阶段。"
+      },
+      {
+        "start": 25.599,
+        "text": "磁盘仍在共享存储，"
+      },
+      {
+        "start": 27.312,
+        "text": "并不是热迁移。"
+      }
+    ]
+  }
+]

@@ -5,3 +5,4 @@ out/
 *.tsbuildinfo
 output/
 .playwright-mcp/
+.playwright-cli/

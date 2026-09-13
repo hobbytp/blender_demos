@@ -41,6 +41,9 @@ input[type=range] { flex: 1; min-width: 40px; accent-color: #285c49; cursor: poi
 .sources a { margin-right: 25px; text-underline-offset: 4px; }
 footer { display: flex; justify-content: space-between; border-top: 1px solid #dfe3db; padding: 22px 0; color: #819087; font-size: 11px; letter-spacing: 1px; }
 .error { color: #a5362b; padding: 0 20px; }
+.ha-scenarios { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.ha-scenarios button { border: 1px solid #c4d3c8; border-radius: 7px; background: #fffefa; color: #52665b; padding: 9px 14px; font-size: 13px; }
+.ha-scenarios button[aria-pressed=true] { background: #254e41; color: white; }
 :root[data-theme=dark] { color: #ece9f4; background: #101015; }
 [data-theme=dark] .masthead, [data-theme=dark] footer, [data-theme=dark] .chapter-help { border-color: #302936; }
 [data-theme=dark] .player-shell { background: #090a10; border-color: #37303f; box-shadow: 0 20px 70px #0005; }
