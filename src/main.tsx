@@ -16,6 +16,9 @@ import {HaPilot} from './HaPilot';
 import {haChapters, HA_DURATION, haStateAt} from './ha-timeline';
 import {HaLesson} from './HaLesson';
 import {haLessonChapters, HA_LESSON_DURATION, haLessonStateAt} from './ha-lesson-timeline';
+import {MigrationPilot} from './MigrationPilot';
+import {migrationChapters, MIGRATION_DURATION, migrationStateAt} from './migration-timeline';
+const isMigration = new URLSearchParams(location.search).get('sample') === 'migration';
 const isHaLesson = new URLSearchParams(location.search).get('sample') === 'ha-lesson';
 const isHa = new URLSearchParams(location.search).get('sample') === 'ha';
 const isHaContent = isHa || isHaLesson;
@@ -23,10 +26,11 @@ const isFlow = new URLSearchParams(location.search).get('sample') === 'flow';
 const isEditorial = new URLSearchParams(location.search).get('sample') === 'editorial';
 
 const isDark = new URLSearchParams(location.search).get('sample') === 'dark';
-const DURATION = isHaLesson ? HA_LESSON_DURATION : isHa ? HA_DURATION : isLesson ? LESSON_DURATION : isFlow ? FLOW_DURATION : isEditorial ? EDITORIAL_DURATION : isDark ? DARK_DURATION : originalDuration;
-const chapters = isHaLesson ? haLessonChapters : isHa ? haChapters : isLesson ? lessonChapters : isFlow ? flowChapters : isEditorial ? editorialChapters : isDark ? darkChapters : originalChapters;
+const DURATION = isMigration ? MIGRATION_DURATION : isHaLesson ? HA_LESSON_DURATION : isHa ? HA_DURATION : isLesson ? LESSON_DURATION : isFlow ? FLOW_DURATION : isEditorial ? EDITORIAL_DURATION : isDark ? DARK_DURATION : originalDuration;
+const chapters = isMigration ? migrationChapters : isHaLesson ? haLessonChapters : isHa ? haChapters : isLesson ? lessonChapters : isFlow ? flowChapters : isEditorial ? editorialChapters : isDark ? darkChapters : originalChapters;
 document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
 if(isHaContent) document.title='HA 自隔离与恢复 · PVE 图解课';
+if(isMigration) document.title='热迁移内部机制 · PVE 图解课';
 
 function App() {
   const player = useRef<PlayerRef>(null);
@@ -35,7 +39,8 @@ function App() {
   const [muted, setMuted] = useState(false);
   const [error, setError] = useState('');
   const [normal, setNormal] = useState(false);
-  const state = isHaLesson ? haLessonStateAt(frame,normal) : isHa ? haStateAt(frame,normal) : isLesson ? lessonStateAt(frame) : isFlow ? flowStateAt(frame) : isEditorial ? editorialStateAt(frame) : isDark ? darkStateAt(frame) : stateAt(frame);
+  const [failed, setFailed] = useState(false);
+  const state = isMigration ? migrationStateAt(frame,failed) : isHaLesson ? haLessonStateAt(frame,normal) : isHa ? haStateAt(frame,normal) : isLesson ? lessonStateAt(frame) : isFlow ? flowStateAt(frame) : isEditorial ? editorialStateAt(frame) : isDark ? darkStateAt(frame) : stateAt(frame);
 
   useEffect(() => {
     const current = player.current!;
@@ -78,14 +83,15 @@ function App() {
   return <div className='page'>
     <header className='masthead'>
       <a className='brand' href='./'><span className='brand-mark'>P</span>PVE 图解课<span className='brand-note'>CLUSTER NOTES</span></a>
-      <a className='edition' href={isHaContent ? isHaLesson ? '?sample=ha' : '?sample=ha-lesson' : isLesson ? '?sample=flow' : '?sample=lesson'}>{isHaContent ? isHaLesson ? '对比：30 秒机制样片 ↗' : '观看：7 分钟 HA 完整讲解 ↗' : isLesson ? '对比：30 秒动态样片 ↗' : '观看：75 秒完整试讲 ↗'}</a>
+      <a className='edition' href={isMigration ? '?sample=ha-lesson' : isHaContent ? isHaLesson ? '?sample=ha' : '?sample=ha-lesson' : isLesson ? '?sample=flow' : '?sample=lesson'}>{isMigration ? '回看：7 分钟 HA 完整讲解 ↗' : isHaContent ? isHaLesson ? '对比：30 秒机制样片 ↗' : '观看：7 分钟 HA 完整讲解 ↗' : isLesson ? '对比：30 秒动态样片 ↗' : '观看：75 秒完整试讲 ↗'}</a>
     </header>
     <main>
-      <div className='intro'><div><p className='eyebrow'>从一次网络分区，理解集群协作</p><h1>{isHaContent ? '旧 VM 还活着，何时才敢接管？' : isDark ? '通信断了，谁还能写？' : '谁还能修改集群配置？'}</h1></div><p className='duration'>{isHaLesson?'7 分钟':`${DURATION / FPS} 秒`}<span>中文讲解 · 可暂停回看</span></p></div>
+      <div className='intro'><div><p className='eyebrow'>{isMigration?'从运行中的内存变化，理解热迁移':'从一次网络分区，理解集群协作'}</p><h1>{isMigration ? 'VM 还在写内存，如何完成切换？' : isHaContent ? '旧 VM 还活着，何时才敢接管？' : isDark ? '通信断了，谁还能写？' : '谁还能修改集群配置？'}</h1></div><p className='duration'>{isHaLesson?'7 分钟':`${DURATION / FPS} 秒`}<span>中文讲解 · 可暂停回看</span></p></div>
+      {isMigration&&<div className='ha-scenarios' role='group' aria-label='迁移场景选择'>{[false,true].map(value=><button key={String(value)} aria-pressed={failed===value} onClick={()=>{seek(0);setFailed(value);}}>{value?'切换前失败（无旁白）':'成功迁移'}</button>)}</div>}
       {isHaContent&&<div className='ha-scenarios' role='group' aria-label='场景选择'>{[false,true].map(value=><button key={String(value)} aria-pressed={normal===value} onClick={()=>{seek(0);setNormal(value);}}>{value?'正常对照（无旁白）':isHaLesson?'持续分区 · 完整讲解':'持续分区 · 机制样片'}</button>)}</div>}
       <div className='lesson-grid'>
         <section className='player-shell' aria-label='教学动画播放器'>
-          <Player ref={player} component={isHaLesson ? HaLesson : isHa ? HaPilot : isLesson ? QuorumLesson : isFlow ? QuorumFlow : isEditorial ? QuorumEditorial : isDark ? QuorumDark : QuorumPilot} inputProps={{normal,lesson:isLesson}} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
+          <Player ref={player} component={isMigration ? MigrationPilot : isHaLesson ? HaLesson : isHa ? HaPilot : isLesson ? QuorumLesson : isFlow ? QuorumFlow : isEditorial ? QuorumEditorial : isDark ? QuorumDark : QuorumPilot} inputProps={{normal,failed,lesson:isLesson}} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
           <div className='controls'>
             <button className='play-button' onClick={toggle} aria-label={playing ? '暂停' : '播放'}>{playing ? 'Ⅱ 暂停' : '▶ 播放'}</button>
             <button className='icon-button' onClick={() => seek(0)} aria-label='重播'>↺</button>
@@ -98,7 +104,7 @@ function App() {
         <aside className='chapters' aria-label='关键步骤'>
           <p className='section-label'>沿着因果链，逐步理解</p>
           <ol>{chapters.map((part, i) => <li key={part.start}>
-            <button onClick={() => {if(isHaContent)setNormal(false);seek(part.start * FPS);}} aria-current={(!isHaContent||!normal)&&state.chapter === i ? 'step' : undefined}>
+            <button onClick={() => {if(isHaContent)setNormal(false);if(isMigration)setFailed(false);seek(part.start * FPS);}} aria-current={(!isHaContent||!normal)&&(!isMigration||!failed)&&state.chapter === i ? 'step' : undefined}>
               <span className='chapter-index'>{String(i + 1).padStart(2, '0')}</span><span>{part.name}</span><time>{String(Math.floor(part.start / 60)).padStart(2, '0')}:{String(Math.floor(part.start % 60)).padStart(2, '0')}</time>
             </button>
           </li>)}</ol>
@@ -106,12 +112,12 @@ function App() {
         </aside>
       </div>
       <div className='lesson-foot'>
-        <p><span className='small-dot'/>三个节点 · 每节点一票 · 无 QDevice</p>
+        <p><span className='small-dot'/>{isMigration?'共享 NFS · pre-copy · 源端与目标均健康':'三个节点 · 每节点一票 · 无 QDevice'}</p>
         <p>时间经过教学编排，非真实故障计时。</p>
       </div>
-      <details className='sources'><summary>场景说明与依据</summary><p>{isHaContent?`PVE 9.x 机制示意：三节点与共享 NFS；C 的全部 Corosync 通信路径持续失效，存储仍可访问。假定 watchdog 工作正常。两侧并行处理，不以动画秒数代表协议超时。${isHaLesson?'全片展示目标节点重新启动 VM，应用就绪由独立探测示意；未做实机故障验收。':'样片止于 recovery，未展示目标 VM 启动。'}`:'画面中的连线代表全部有效集群通信路径。配置修改比较同一 VM 100 的 pmxcfs 文件层写入，不代表某个 GUI 或 API 请求的完整行为。虚拟机运行状态不由票数动画直接推断。'}</p><p>{isHaContent&&<a href='https://github.com/hobbytp/blender_demos/blob/prototype/quorum-pilot/docs/notes/pve-ep01-ha-fencing.md'>首集脚本与固定源码依据</a>}<a href='https://github.com/proxmox/pve-docs/blob/master/pmxcfs.adoc'>Proxmox · pmxcfs</a><a href='https://github.com/corosync/corosync/blob/main/man/votequorum.5'>Corosync · votequorum</a><a href='https://github.com/proxmox/pve-docs/blob/master/ha-manager.adoc'>Proxmox · HA</a></p></details>
+      <details className='sources'><summary>场景说明与依据</summary><p>{isMigration?'健康集群内的 C → B 预拷贝迁移：共享 NFS、兼容 CPU 与网络，不含本地磁盘或 post-copy。失败对照仅限源端暂停前传输失败且源端和控制路径可用；未做实机迁移验收。':isHaContent?`PVE 9.x 机制示意：三节点与共享 NFS；C 的全部 Corosync 通信路径持续失效，存储仍可访问。假定 watchdog 工作正常。两侧并行处理，不以动画秒数代表协议超时。${isHaLesson?'全片展示目标节点重新启动 VM，应用就绪由独立探测示意；未做实机故障验收。':'样片止于 recovery，未展示目标 VM 启动。'}`:'画面中的连线代表全部有效集群通信路径。配置修改比较同一 VM 100 的 pmxcfs 文件层写入，不代表某个 GUI 或 API 请求的完整行为。虚拟机运行状态不由票数动画直接推断。'}</p><p>{isMigration&&<a href='https://github.com/hobbytp/blender_demos/blob/prototype/quorum-pilot/docs/notes/pve-ep02-live-migration.md'>第二集脚本与固定源码依据</a>}{isHaContent&&<a href='https://github.com/hobbytp/blender_demos/blob/prototype/quorum-pilot/docs/notes/pve-ep01-ha-fencing.md'>首集脚本与固定源码依据</a>}<a href='https://github.com/proxmox/pve-docs/blob/master/pmxcfs.adoc'>Proxmox · pmxcfs</a><a href='https://github.com/corosync/corosync/blob/main/man/votequorum.5'>Corosync · votequorum</a><a href='https://github.com/proxmox/pve-docs/blob/master/ha-manager.adoc'>Proxmox · HA</a></p></details>
     </main>
-    <footer><span>PVE 图解课 / 01</span><span>先理解原理，再讨论故障。</span></footer>
+    <footer><span>PVE 图解课 / {isMigration?'02':'01'}</span><span>先理解原理，再讨论故障。</span></footer>
   </div>;
 }
 

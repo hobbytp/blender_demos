@@ -1,0 +1,82 @@
+[
+  {
+    "start": 0.3,
+    "end": 7.4,
+    "duration": 6.096,
+    "file": "audio/quorum-migration/01.mp3",
+    "captions": [
+      {
+        "start": 0.396,
+        "text": "源端仍在运行，"
+      },
+      {
+        "start": 1.878,
+        "text": "内存先传到目标。"
+      },
+      {
+        "start": 3.714,
+        "text": "目标只接收，不执行。"
+      }
+    ]
+  },
+  {
+    "start": 7.6,
+    "end": 15.0,
+    "duration": 7.032,
+    "file": "audio/quorum-migration/02.mp3",
+    "captions": [
+      {
+        "start": 7.696,
+        "text": "已传的页又被修改，"
+      },
+      {
+        "start": 9.282,
+        "text": "就标记为脏，再次传送。"
+      },
+      {
+        "start": 11.767,
+        "text": "源端继续写，还会再变。"
+      }
+    ]
+  },
+  {
+    "start": 15.3,
+    "end": 22.7,
+    "duration": 6.6,
+    "file": "audio/quorum-migration/03.mp3",
+    "captions": [
+      {
+        "start": 15.396,
+        "text": "最后，先暂停源端。"
+      },
+      {
+        "start": 17.719,
+        "text": "补齐剩余内存，"
+      },
+      {
+        "start": 19.247,
+        "text": "再传处理器和设备状态。"
+      }
+    ]
+  },
+  {
+    "start": 23.0,
+    "end": 29.9,
+    "duration": 6.144,
+    "file": "audio/quorum-migration/04.mp3",
+    "captions": [
+      {
+        "start": 23.096,
+        "text": "配置归属转到目标，"
+      },
+      {
+        "start": 24.717,
+        "text": "再恢复执行。"
+      },
+      {
+        "start": 26.229,
+        "text": "共享磁盘始终没有搬家。"
+      }
+    ]
+  }
+]

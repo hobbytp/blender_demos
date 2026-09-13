@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "voice:migration": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py migration",
+    "render:migration": "remotion render src/remotion.tsx MigrationPilot out/live-migration-30s-v1.mp4 --codec=h264 --concurrency=2",
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "tsc --noEmit && vite build",
     "test": "node --test tests/*.test.ts",
