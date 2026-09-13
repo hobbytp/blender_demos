@@ -18,9 +18,9 @@ const stable=Math.max(deviceCache+36,cue('下层完成持久化之后，')+30);
 const flushAck=Math.max(stable+90,cue('刷新完成才返回来宾。')+48);
 export const durabilityBeats={write,qemuWrite:write+24,backendWrite:cache-24,cache,writeAck,flush,
   qemuFlush:flush+24,backendFlush:flush+48,hostFlush:flush+72,deviceFlush:deviceCache+24,
-  deviceCache,stable,flushAck,powerCut:flush-15};
-export function durabilityStateAt(frame:number,powerLoss=false){
-  const f=Math.max(0,Math.min(DURABILITY_DURATION-1,Math.floor(frame))),b=durabilityBeats;
+  deviceCache,stable,hostComplete:stable+24,backendComplete:stable+48,virtioComplete:flushAck-24,flushAck,powerCut:flush-15};
+export function durabilityStateAt(frame:number,powerLoss=false,duration=DURABILITY_DURATION,b=durabilityBeats){
+  const f=Math.max(0,Math.min(duration-1,Math.floor(frame)));
   const powerOff=powerLoss&&f>=b.powerCut;
   return {frame:f,chapter:durabilityChapters.findIndex(c=>f<c.end*30),powerOff,
     writeSent:f>=b.write,qemuWrite:f>=b.qemuWrite,backendWrite:f>=b.backendWrite,
@@ -28,8 +28,8 @@ export function durabilityStateAt(frame:number,powerLoss=false){
     flushSent:!powerLoss&&f>=b.flush,qemuFlush:!powerLoss&&f>=b.qemuFlush,
     backendFlush:!powerLoss&&f>=b.backendFlush,hostFlush:!powerLoss&&f>=b.hostFlush,
     deviceFlush:!powerLoss&&f>=b.deviceFlush,deviceCached:!powerLoss&&f>=b.deviceCache,
-    stable:!powerLoss&&f>=b.stable,hostComplete:!powerLoss&&f>=b.stable+24,
-    backendComplete:!powerLoss&&f>=b.stable+48,virtioComplete:!powerLoss&&f>=b.flushAck-24,
+    stable:!powerLoss&&f>=b.stable,hostComplete:!powerLoss&&f>=b.hostComplete,
+    backendComplete:!powerLoss&&f>=b.backendComplete,virtioComplete:!powerLoss&&f>=b.virtioComplete,
     flushAck:!powerLoss&&f>=b.flushAck,
     durableGuarantee:!powerLoss&&f>=b.flushAck,
   };

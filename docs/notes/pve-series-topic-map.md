@@ -23,7 +23,7 @@
 | 02 / F1 | VM 还在写内存，热迁移如何完成最后一次切换？ | 跟踪脏页迭代、设备状态与最终切换 | 建议复用三节点/NFS 拓扑；具体迁移配置在该集核查时固定 |
 | 03 / B3 | 一次配置修改，如何成为集群共享状态？ | 跟踪配置入口、pmxcfs 复制与 quorum/锁约束 | [完整讲稿与分镜](pve-ep03-pmxcfs.md)；[7 分钟完整课件与验收](pmxcfs-7min.md)，保留原样片 |
 
-首批三集均已交付 7 分钟课件：[HA](ha-fencing-7min.md)、[热迁移](live-migration-7min.md)、[pmxcfs](pmxcfs-7min.md)。用户要求继续后，按下文 Ceph 部署未定的顺序建议推进第四集 D2 写入持久性（9/10）：[7 分钟分镜草案](pve-ep04-write-durability.md)、[30 秒样片](write-durability-30s.md)。这项续排不改写此前三集确认记录。
+首批三集均已交付 7 分钟课件：[HA](ha-fencing-7min.md)、[热迁移](live-migration-7min.md)、[pmxcfs](pmxcfs-7min.md)。用户要求继续后，按下文 Ceph 部署未定的建议推进第四集 D2 写入持久性（9/10），现已扩展为 [7 分钟完整课件](write-durability-7min.md)，保留 [源码与分镜](pve-ep04-write-durability.md)、[30 秒样片](write-durability-30s.md)。这项续排不改写此前三集确认记录。
 
 以下评分与其余排序仍是候选；首批实际执行以上表为准。
 

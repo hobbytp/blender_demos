@@ -16,9 +16,12 @@ import {HaPilot} from './HaPilot';
 import {haChapters, HA_DURATION, haStateAt} from './ha-timeline';
 import {HaLesson} from './HaLesson';
 import {haLessonChapters, HA_LESSON_DURATION, haLessonStateAt} from './ha-lesson-timeline';
+import {DurabilityLesson} from './DurabilityLesson';
+import {DURABILITY_LESSON_DURATION,durabilityLessonChapters,durabilityLessonStateAt} from './durability-lesson-timeline';
+const isDurabilityLesson = new URLSearchParams(location.search).get('sample') === 'durability-lesson';
 import {DurabilityPilot} from './DurabilityPilot';
 import {DURABILITY_DURATION,durabilityChapters,durabilityStateAt} from './durability-timeline';
-const isDurability = new URLSearchParams(location.search).get('sample') === 'durability';
+const isDurability = new URLSearchParams(location.search).get('sample') === 'durability' || isDurabilityLesson;
 import {PmxcfsPilot} from './PmxcfsPilot';
 import {pmxcfsChapters, PMXCFS_DURATION, pmxcfsStateAt} from './pmxcfs-timeline';
 import {PmxcfsLesson} from './PmxcfsLesson';
@@ -39,8 +42,8 @@ const isFlow = new URLSearchParams(location.search).get('sample') === 'flow';
 const isEditorial = new URLSearchParams(location.search).get('sample') === 'editorial';
 
 const isDark = new URLSearchParams(location.search).get('sample') === 'dark';
-const DURATION = isDurability ? DURABILITY_DURATION : isPmxcfsLesson ? PMXCFS_LESSON_DURATION : isPmxcfs ? PMXCFS_DURATION : isMigrationLesson ? MIGRATION_LESSON_DURATION : isMigration ? MIGRATION_DURATION : isHaLesson ? HA_LESSON_DURATION : isHa ? HA_DURATION : isLesson ? LESSON_DURATION : isFlow ? FLOW_DURATION : isEditorial ? EDITORIAL_DURATION : isDark ? DARK_DURATION : originalDuration;
-const chapters = isDurability ? durabilityChapters : isPmxcfsLesson ? pmxcfsLessonChapters : isPmxcfs ? pmxcfsChapters : isMigrationLesson ? migrationLessonChapters : isMigration ? migrationChapters : isHaLesson ? haLessonChapters : isHa ? haChapters : isLesson ? lessonChapters : isFlow ? flowChapters : isEditorial ? editorialChapters : isDark ? darkChapters : originalChapters;
+const DURATION = isDurabilityLesson ? DURABILITY_LESSON_DURATION : isDurability ? DURABILITY_DURATION : isPmxcfsLesson ? PMXCFS_LESSON_DURATION : isPmxcfs ? PMXCFS_DURATION : isMigrationLesson ? MIGRATION_LESSON_DURATION : isMigration ? MIGRATION_DURATION : isHaLesson ? HA_LESSON_DURATION : isHa ? HA_DURATION : isLesson ? LESSON_DURATION : isFlow ? FLOW_DURATION : isEditorial ? EDITORIAL_DURATION : isDark ? DARK_DURATION : originalDuration;
+const chapters = isDurabilityLesson ? durabilityLessonChapters : isDurability ? durabilityChapters : isPmxcfsLesson ? pmxcfsLessonChapters : isPmxcfs ? pmxcfsChapters : isMigrationLesson ? migrationLessonChapters : isMigration ? migrationChapters : isHaLesson ? haLessonChapters : isHa ? haChapters : isLesson ? lessonChapters : isFlow ? flowChapters : isEditorial ? editorialChapters : isDark ? darkChapters : originalChapters;
 document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
 if(isHaContent) document.title='HA 自隔离与恢复 · PVE 图解课';
 if(isMigrationContent) document.title='热迁移内部机制 · PVE 图解课';
@@ -58,7 +61,7 @@ function App() {
   const [failed, setFailed] = useState(false);
   const [blocked, setBlocked] = useState(false);
   const [powerLoss,setPowerLoss] = useState(false);
-  const state = isDurability ? durabilityStateAt(frame,powerLoss) : isPmxcfsLesson ? pmxcfsLessonStateAt(frame) : isPmxcfs ? pmxcfsStateAt(frame,blocked) : isMigrationLesson ? migrationLessonStateAt(frame) : isMigration ? migrationStateAt(frame,failed) : isHaLesson ? haLessonStateAt(frame,normal) : isHa ? haStateAt(frame,normal) : isLesson ? lessonStateAt(frame) : isFlow ? flowStateAt(frame) : isEditorial ? editorialStateAt(frame) : isDark ? darkStateAt(frame) : stateAt(frame);
+  const state = isDurabilityLesson ? durabilityLessonStateAt(frame) : isDurability ? durabilityStateAt(frame,powerLoss) : isPmxcfsLesson ? pmxcfsLessonStateAt(frame) : isPmxcfs ? pmxcfsStateAt(frame,blocked) : isMigrationLesson ? migrationLessonStateAt(frame) : isMigration ? migrationStateAt(frame,failed) : isHaLesson ? haLessonStateAt(frame,normal) : isHa ? haStateAt(frame,normal) : isLesson ? lessonStateAt(frame) : isFlow ? flowStateAt(frame) : isEditorial ? editorialStateAt(frame) : isDark ? darkStateAt(frame) : stateAt(frame);
 
   useEffect(() => {
     const current = player.current!;
@@ -101,17 +104,17 @@ function App() {
   return <div className='page'>
     <header className='masthead'>
       <a className='brand' href='./'><span className='brand-mark'>P</span>PVE 图解课<span className='brand-note'>CLUSTER NOTES</span></a>
-      <a className='edition' href={isDurability ? '?sample=pmxcfs-lesson' : isPmxcfs ? isPmxcfsLesson ? '?sample=pmxcfs' : '?sample=pmxcfs-lesson' : isMigrationContent ? isMigrationLesson ? '?sample=migration' : '?sample=migration-lesson' : isHaContent ? isHaLesson ? '?sample=ha' : '?sample=ha-lesson' : isLesson ? '?sample=flow' : '?sample=lesson'}>{isDurability ? '回看：7 分钟 pmxcfs 完整讲解 ↗' : isPmxcfs ? isPmxcfsLesson ? '对比：30 秒 pmxcfs 机制样片 ↗' : '观看：7 分钟 pmxcfs 完整讲解 ↗' : isMigrationContent ? isMigrationLesson ? '对比：30 秒热迁移样片 ↗' : '观看：7 分钟热迁移完整讲解 ↗' : isHaContent ? isHaLesson ? '对比：30 秒机制样片 ↗' : '观看：7 分钟 HA 完整讲解 ↗' : isLesson ? '对比：30 秒动态样片 ↗' : '观看：75 秒完整试讲 ↗'}</a>
+      <a className='edition' href={isDurability ? isDurabilityLesson ? '?sample=durability' : '?sample=durability-lesson' : isPmxcfs ? isPmxcfsLesson ? '?sample=pmxcfs' : '?sample=pmxcfs-lesson' : isMigrationContent ? isMigrationLesson ? '?sample=migration' : '?sample=migration-lesson' : isHaContent ? isHaLesson ? '?sample=ha' : '?sample=ha-lesson' : isLesson ? '?sample=flow' : '?sample=lesson'}>{isDurability ? isDurabilityLesson ? '对比：30 秒写入持久性样片 ↗' : '观看：7 分钟写入持久性完整讲解 ↗' : isPmxcfs ? isPmxcfsLesson ? '对比：30 秒 pmxcfs 机制样片 ↗' : '观看：7 分钟 pmxcfs 完整讲解 ↗' : isMigrationContent ? isMigrationLesson ? '对比：30 秒热迁移样片 ↗' : '观看：7 分钟热迁移完整讲解 ↗' : isHaContent ? isHaLesson ? '对比：30 秒机制样片 ↗' : '观看：7 分钟 HA 完整讲解 ↗' : isLesson ? '对比：30 秒动态样片 ↗' : '观看：75 秒完整试讲 ↗'}</a>
     </header>
     <main>
-      <div className='intro'><div><p className='eyebrow'>{isDurability?'从一次写完成，追问数据保存在哪里':isPmxcfs?'从一次写入，理解配置复制':isMigrationContent?'从运行中的内存变化，理解热迁移':'从一次网络分区，理解集群协作'}</p><h1>{isDurability ? '写入返回成功，数据就能抗断电吗？' : isPmxcfs ? '一次配置修改，如何成为共享状态？' : isMigrationContent ? 'VM 还在写内存，如何完成切换？' : isHaContent ? '旧 VM 还活着，何时才敢接管？' : isDark ? '通信断了，谁还能写？' : '谁还能修改集群配置？'}</h1></div><p className='duration'>{isHaLesson||isMigrationLesson||isPmxcfsLesson?'7 分钟':`${DURATION / FPS} 秒`}<span>中文讲解 · 可暂停回看</span></p></div>
-      {isDurability&&<div className='ha-scenarios' role='group' aria-label='持久化场景'>{[false,true].map(value=><button key={String(value)} aria-pressed={powerLoss===value} onClick={()=>{seek(0);setPowerLoss(value);}}>{value?'WRITE 后模拟断电（无旁白）':'WRITE 与 FLUSH 完整路径'}</button>)}</div>}
+      <div className='intro'><div><p className='eyebrow'>{isDurability?'从一次写完成，追问数据保存在哪里':isPmxcfs?'从一次写入，理解配置复制':isMigrationContent?'从运行中的内存变化，理解热迁移':'从一次网络分区，理解集群协作'}</p><h1>{isDurability ? '写入返回成功，数据就能抗断电吗？' : isPmxcfs ? '一次配置修改，如何成为共享状态？' : isMigrationContent ? 'VM 还在写内存，如何完成切换？' : isHaContent ? '旧 VM 还活着，何时才敢接管？' : isDark ? '通信断了，谁还能写？' : '谁还能修改集群配置？'}</h1></div><p className='duration'>{isDurabilityLesson||isHaLesson||isMigrationLesson||isPmxcfsLesson?'7 分钟':`${DURATION / FPS} 秒`}<span>中文讲解 · 可暂停回看</span></p></div>
+      {isDurability&&!isDurabilityLesson&&<div className='ha-scenarios' role='group' aria-label='持久化场景'>{[false,true].map(value=><button key={String(value)} aria-pressed={powerLoss===value} onClick={()=>{seek(0);setPowerLoss(value);}}>{value?'WRITE 后模拟断电（无旁白）':'WRITE 与 FLUSH 完整路径'}</button>)}</div>}
       {isPmxcfs&&!isPmxcfsLesson&&<div className='ha-scenarios' role='group' aria-label='配置写入场景'>{[false,true].map(value=><button key={String(value)} aria-pressed={blocked===value} onClick={()=>{seek(0);setBlocked(value);}}>{value?'仅看无 quorum（无旁白）':'写入机制与分区对照'}</button>)}</div>}
       {isMigration&&<div className='ha-scenarios' role='group' aria-label='迁移场景选择'>{[false,true].map(value=><button key={String(value)} aria-pressed={failed===value} onClick={()=>{seek(0);setFailed(value);}}>{value?'切换前失败（无旁白）':'成功迁移'}</button>)}</div>}
       {isHaContent&&<div className='ha-scenarios' role='group' aria-label='场景选择'>{[false,true].map(value=><button key={String(value)} aria-pressed={normal===value} onClick={()=>{seek(0);setNormal(value);}}>{value?'正常对照（无旁白）':isHaLesson?'持续分区 · 完整讲解':'持续分区 · 机制样片'}</button>)}</div>}
       <div className='lesson-grid'>
         <section className='player-shell' aria-label='教学动画播放器'>
-          <Player ref={player} component={isDurability ? DurabilityPilot : isPmxcfsLesson ? PmxcfsLesson : isPmxcfs ? PmxcfsPilot : isMigrationLesson ? MigrationLesson : isMigration ? MigrationPilot : isHaLesson ? HaLesson : isHa ? HaPilot : isLesson ? QuorumLesson : isFlow ? QuorumFlow : isEditorial ? QuorumEditorial : isDark ? QuorumDark : QuorumPilot} inputProps={{normal,failed,blocked,powerLoss,lesson:isLesson}} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
+          <Player ref={player} component={isDurabilityLesson ? DurabilityLesson : isDurability ? DurabilityPilot : isPmxcfsLesson ? PmxcfsLesson : isPmxcfs ? PmxcfsPilot : isMigrationLesson ? MigrationLesson : isMigration ? MigrationPilot : isHaLesson ? HaLesson : isHa ? HaPilot : isLesson ? QuorumLesson : isFlow ? QuorumFlow : isEditorial ? QuorumEditorial : isDark ? QuorumDark : QuorumPilot} inputProps={{normal,failed,blocked,powerLoss,lesson:isLesson}} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
           <div className='controls'>
             <button className='play-button' onClick={toggle} aria-label={playing ? '暂停' : '播放'}>{playing ? 'Ⅱ 暂停' : '▶ 播放'}</button>
             <button className='icon-button' onClick={() => seek(0)} aria-label='重播'>↺</button>

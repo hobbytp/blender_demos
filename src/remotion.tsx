@@ -20,10 +20,13 @@ import {PMXCFS_DURATION} from './pmxcfs-timeline';
 import {PmxcfsLesson} from './PmxcfsLesson';
 import {PMXCFS_LESSON_DURATION} from './pmxcfs-lesson-timeline';
 import {DurabilityPilot} from './DurabilityPilot';
+import {DurabilityLesson} from './DurabilityLesson';
+import {DURABILITY_LESSON_DURATION} from './durability-lesson-timeline';
 import {DURABILITY_DURATION} from './durability-timeline';
 
 function Root() {
   return <>
+    <Composition id='DurabilityLesson' component={DurabilityLesson} durationInFrames={DURABILITY_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='DurabilityPilot' component={DurabilityPilot} defaultProps={{powerLoss:false}} durationInFrames={DURABILITY_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='PmxcfsLesson' component={PmxcfsLesson} durationInFrames={PMXCFS_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='PmxcfsPilot' component={PmxcfsPilot} defaultProps={{blocked:false}} durationInFrames={PMXCFS_DURATION} fps={FPS} width={1920} height={1080}/>
