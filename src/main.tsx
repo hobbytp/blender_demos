@@ -18,7 +18,10 @@ import {HaLesson} from './HaLesson';
 import {haLessonChapters, HA_LESSON_DURATION, haLessonStateAt} from './ha-lesson-timeline';
 import {PmxcfsPilot} from './PmxcfsPilot';
 import {pmxcfsChapters, PMXCFS_DURATION, pmxcfsStateAt} from './pmxcfs-timeline';
-const isPmxcfs = new URLSearchParams(location.search).get('sample') === 'pmxcfs';
+import {PmxcfsLesson} from './PmxcfsLesson';
+import {pmxcfsLessonChapters,PMXCFS_LESSON_DURATION,pmxcfsLessonStateAt} from './pmxcfs-lesson-timeline';
+const isPmxcfsLesson = new URLSearchParams(location.search).get('sample') === 'pmxcfs-lesson';
+const isPmxcfs = isPmxcfsLesson || new URLSearchParams(location.search).get('sample') === 'pmxcfs';
 import {MigrationLesson} from './MigrationLesson';
 import {migrationLessonChapters, MIGRATION_LESSON_DURATION, migrationLessonStateAt} from './migration-lesson-timeline';
 const isMigrationLesson = new URLSearchParams(location.search).get('sample') === 'migration-lesson';
@@ -33,8 +36,8 @@ const isFlow = new URLSearchParams(location.search).get('sample') === 'flow';
 const isEditorial = new URLSearchParams(location.search).get('sample') === 'editorial';
 
 const isDark = new URLSearchParams(location.search).get('sample') === 'dark';
-const DURATION = isPmxcfs ? PMXCFS_DURATION : isMigrationLesson ? MIGRATION_LESSON_DURATION : isMigration ? MIGRATION_DURATION : isHaLesson ? HA_LESSON_DURATION : isHa ? HA_DURATION : isLesson ? LESSON_DURATION : isFlow ? FLOW_DURATION : isEditorial ? EDITORIAL_DURATION : isDark ? DARK_DURATION : originalDuration;
-const chapters = isPmxcfs ? pmxcfsChapters : isMigrationLesson ? migrationLessonChapters : isMigration ? migrationChapters : isHaLesson ? haLessonChapters : isHa ? haChapters : isLesson ? lessonChapters : isFlow ? flowChapters : isEditorial ? editorialChapters : isDark ? darkChapters : originalChapters;
+const DURATION = isPmxcfsLesson ? PMXCFS_LESSON_DURATION : isPmxcfs ? PMXCFS_DURATION : isMigrationLesson ? MIGRATION_LESSON_DURATION : isMigration ? MIGRATION_DURATION : isHaLesson ? HA_LESSON_DURATION : isHa ? HA_DURATION : isLesson ? LESSON_DURATION : isFlow ? FLOW_DURATION : isEditorial ? EDITORIAL_DURATION : isDark ? DARK_DURATION : originalDuration;
+const chapters = isPmxcfsLesson ? pmxcfsLessonChapters : isPmxcfs ? pmxcfsChapters : isMigrationLesson ? migrationLessonChapters : isMigration ? migrationChapters : isHaLesson ? haLessonChapters : isHa ? haChapters : isLesson ? lessonChapters : isFlow ? flowChapters : isEditorial ? editorialChapters : isDark ? darkChapters : originalChapters;
 document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
 if(isHaContent) document.title='HA 自隔离与恢复 · PVE 图解课';
 if(isMigrationContent) document.title='热迁移内部机制 · PVE 图解课';
@@ -50,7 +53,7 @@ function App() {
   const [normal, setNormal] = useState(false);
   const [failed, setFailed] = useState(false);
   const [blocked, setBlocked] = useState(false);
-  const state = isPmxcfs ? pmxcfsStateAt(frame,blocked) : isMigrationLesson ? migrationLessonStateAt(frame) : isMigration ? migrationStateAt(frame,failed) : isHaLesson ? haLessonStateAt(frame,normal) : isHa ? haStateAt(frame,normal) : isLesson ? lessonStateAt(frame) : isFlow ? flowStateAt(frame) : isEditorial ? editorialStateAt(frame) : isDark ? darkStateAt(frame) : stateAt(frame);
+  const state = isPmxcfsLesson ? pmxcfsLessonStateAt(frame) : isPmxcfs ? pmxcfsStateAt(frame,blocked) : isMigrationLesson ? migrationLessonStateAt(frame) : isMigration ? migrationStateAt(frame,failed) : isHaLesson ? haLessonStateAt(frame,normal) : isHa ? haStateAt(frame,normal) : isLesson ? lessonStateAt(frame) : isFlow ? flowStateAt(frame) : isEditorial ? editorialStateAt(frame) : isDark ? darkStateAt(frame) : stateAt(frame);
 
   useEffect(() => {
     const current = player.current!;
@@ -93,16 +96,16 @@ function App() {
   return <div className='page'>
     <header className='masthead'>
       <a className='brand' href='./'><span className='brand-mark'>P</span>PVE 图解课<span className='brand-note'>CLUSTER NOTES</span></a>
-      <a className='edition' href={isPmxcfs ? '?sample=migration-lesson' : isMigrationContent ? isMigrationLesson ? '?sample=migration' : '?sample=migration-lesson' : isHaContent ? isHaLesson ? '?sample=ha' : '?sample=ha-lesson' : isLesson ? '?sample=flow' : '?sample=lesson'}>{isPmxcfs ? '回看：7 分钟热迁移完整讲解 ↗' : isMigrationContent ? isMigrationLesson ? '对比：30 秒热迁移样片 ↗' : '观看：7 分钟热迁移完整讲解 ↗' : isHaContent ? isHaLesson ? '对比：30 秒机制样片 ↗' : '观看：7 分钟 HA 完整讲解 ↗' : isLesson ? '对比：30 秒动态样片 ↗' : '观看：75 秒完整试讲 ↗'}</a>
+      <a className='edition' href={isPmxcfs ? isPmxcfsLesson ? '?sample=pmxcfs' : '?sample=pmxcfs-lesson' : isMigrationContent ? isMigrationLesson ? '?sample=migration' : '?sample=migration-lesson' : isHaContent ? isHaLesson ? '?sample=ha' : '?sample=ha-lesson' : isLesson ? '?sample=flow' : '?sample=lesson'}>{isPmxcfs ? isPmxcfsLesson ? '对比：30 秒 pmxcfs 机制样片 ↗' : '观看：7 分钟 pmxcfs 完整讲解 ↗' : isMigrationContent ? isMigrationLesson ? '对比：30 秒热迁移样片 ↗' : '观看：7 分钟热迁移完整讲解 ↗' : isHaContent ? isHaLesson ? '对比：30 秒机制样片 ↗' : '观看：7 分钟 HA 完整讲解 ↗' : isLesson ? '对比：30 秒动态样片 ↗' : '观看：75 秒完整试讲 ↗'}</a>
     </header>
     <main>
-      <div className='intro'><div><p className='eyebrow'>{isPmxcfs?'从一次写入，理解配置复制':isMigrationContent?'从运行中的内存变化，理解热迁移':'从一次网络分区，理解集群协作'}</p><h1>{isPmxcfs ? '一次配置修改，如何成为共享状态？' : isMigrationContent ? 'VM 还在写内存，如何完成切换？' : isHaContent ? '旧 VM 还活着，何时才敢接管？' : isDark ? '通信断了，谁还能写？' : '谁还能修改集群配置？'}</h1></div><p className='duration'>{isHaLesson||isMigrationLesson?'7 分钟':`${DURATION / FPS} 秒`}<span>中文讲解 · 可暂停回看</span></p></div>
-      {isPmxcfs&&<div className='ha-scenarios' role='group' aria-label='配置写入场景'>{[false,true].map(value=><button key={String(value)} aria-pressed={blocked===value} onClick={()=>{seek(0);setBlocked(value);}}>{value?'仅看无 quorum（无旁白）':'写入机制与分区对照'}</button>)}</div>}
+      <div className='intro'><div><p className='eyebrow'>{isPmxcfs?'从一次写入，理解配置复制':isMigrationContent?'从运行中的内存变化，理解热迁移':'从一次网络分区，理解集群协作'}</p><h1>{isPmxcfs ? '一次配置修改，如何成为共享状态？' : isMigrationContent ? 'VM 还在写内存，如何完成切换？' : isHaContent ? '旧 VM 还活着，何时才敢接管？' : isDark ? '通信断了，谁还能写？' : '谁还能修改集群配置？'}</h1></div><p className='duration'>{isHaLesson||isMigrationLesson||isPmxcfsLesson?'7 分钟':`${DURATION / FPS} 秒`}<span>中文讲解 · 可暂停回看</span></p></div>
+      {isPmxcfs&&!isPmxcfsLesson&&<div className='ha-scenarios' role='group' aria-label='配置写入场景'>{[false,true].map(value=><button key={String(value)} aria-pressed={blocked===value} onClick={()=>{seek(0);setBlocked(value);}}>{value?'仅看无 quorum（无旁白）':'写入机制与分区对照'}</button>)}</div>}
       {isMigration&&<div className='ha-scenarios' role='group' aria-label='迁移场景选择'>{[false,true].map(value=><button key={String(value)} aria-pressed={failed===value} onClick={()=>{seek(0);setFailed(value);}}>{value?'切换前失败（无旁白）':'成功迁移'}</button>)}</div>}
       {isHaContent&&<div className='ha-scenarios' role='group' aria-label='场景选择'>{[false,true].map(value=><button key={String(value)} aria-pressed={normal===value} onClick={()=>{seek(0);setNormal(value);}}>{value?'正常对照（无旁白）':isHaLesson?'持续分区 · 完整讲解':'持续分区 · 机制样片'}</button>)}</div>}
       <div className='lesson-grid'>
         <section className='player-shell' aria-label='教学动画播放器'>
-          <Player ref={player} component={isPmxcfs ? PmxcfsPilot : isMigrationLesson ? MigrationLesson : isMigration ? MigrationPilot : isHaLesson ? HaLesson : isHa ? HaPilot : isLesson ? QuorumLesson : isFlow ? QuorumFlow : isEditorial ? QuorumEditorial : isDark ? QuorumDark : QuorumPilot} inputProps={{normal,failed,blocked,lesson:isLesson}} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
+          <Player ref={player} component={isPmxcfsLesson ? PmxcfsLesson : isPmxcfs ? PmxcfsPilot : isMigrationLesson ? MigrationLesson : isMigration ? MigrationPilot : isHaLesson ? HaLesson : isHa ? HaPilot : isLesson ? QuorumLesson : isFlow ? QuorumFlow : isEditorial ? QuorumEditorial : isDark ? QuorumDark : QuorumPilot} inputProps={{normal,failed,blocked,lesson:isLesson}} durationInFrames={DURATION} fps={FPS} compositionWidth={1920} compositionHeight={1080} style={{width: '100%'}} controls={false} autoPlay={false} loop={false} clickToPlay={false} doubleClickToFullscreen={false} moveToBeginningWhenEnded={false} showVolumeControls={false}/>
           <div className='controls'>
             <button className='play-button' onClick={toggle} aria-label={playing ? '暂停' : '播放'}>{playing ? 'Ⅱ 暂停' : '▶ 播放'}</button>
             <button className='icon-button' onClick={() => seek(0)} aria-label='重播'>↺</button>
@@ -126,7 +129,7 @@ function App() {
         <p><span className='small-dot'/>{isPmxcfs?'三节点 · 同一配置路径 · 文件层写入示意':isMigrationContent?'共享 NFS · pre-copy · 源端与目标均健康':'三个节点 · 每节点一票 · 无 QDevice'}</p>
         <p>时间经过教学编排，非真实故障计时。</p>
       </div>
-      <details className='sources'><summary>场景说明与依据</summary><p>{isPmxcfs?'三节点已同步、权限满足，只跟踪已进入 FUSE 的单个写操作；不代表 GUI/API 的完整事务。第四段是 C 已失去 quorum 后的新写入对照。SQLite 完成不等于每次断电持久性保证，配置复制不复制虚拟磁盘。':isMigrationContent?'健康集群内的 C → B 预拷贝迁移：共享 NFS、兼容 CPU 与网络，不含本地磁盘或 post-copy。失败对照仅限源端暂停前传输失败且源端和控制路径可用；未做实机迁移验收。':isHaContent?`PVE 9.x 机制示意：三节点与共享 NFS；C 的全部 Corosync 通信路径持续失效，存储仍可访问。假定 watchdog 工作正常。两侧并行处理，不以动画秒数代表协议超时。${isHaLesson?'全片展示目标节点重新启动 VM，应用就绪由独立探测示意；未做实机故障验收。':'样片止于 recovery，未展示目标 VM 启动。'}`:'画面中的连线代表全部有效集群通信路径。配置修改比较同一 VM 100 的 pmxcfs 文件层写入，不代表某个 GUI 或 API 请求的完整行为。虚拟机运行状态不由票数动画直接推断。'}</p><p>{isPmxcfs&&<a href='https://github.com/hobbytp/blender_demos/blob/prototype/quorum-pilot/docs/notes/pve-ep03-pmxcfs.md'>第三集分镜与固定源码依据</a>}{isMigrationContent&&<a href='https://github.com/hobbytp/blender_demos/blob/prototype/quorum-pilot/docs/notes/pve-ep02-live-migration.md'>第二集脚本与固定源码依据</a>}{isHaContent&&<a href='https://github.com/hobbytp/blender_demos/blob/prototype/quorum-pilot/docs/notes/pve-ep01-ha-fencing.md'>首集脚本与固定源码依据</a>}<a href='https://github.com/proxmox/pve-docs/blob/master/pmxcfs.adoc'>Proxmox · pmxcfs</a><a href='https://github.com/corosync/corosync/blob/main/man/votequorum.5'>Corosync · votequorum</a><a href='https://github.com/proxmox/pve-docs/blob/master/ha-manager.adoc'>Proxmox · HA</a></p></details>
+      <details className='sources'><summary>场景说明与依据</summary><p>{isPmxcfs?'三节点已同步、权限满足，只跟踪已进入 FUSE 的单个写操作；不代表 GUI/API 的完整事务。分区章节展示 C 已失去 quorum 后的新写入；锁章节与片尾明确回到独立健康示例。SQLite 完成不等于每次断电持久性保证，配置复制不复制虚拟磁盘。':isMigrationContent?'健康集群内的 C → B 预拷贝迁移：共享 NFS、兼容 CPU 与网络，不含本地磁盘或 post-copy。失败对照仅限源端暂停前传输失败且源端和控制路径可用；未做实机迁移验收。':isHaContent?`PVE 9.x 机制示意：三节点与共享 NFS；C 的全部 Corosync 通信路径持续失效，存储仍可访问。假定 watchdog 工作正常。两侧并行处理，不以动画秒数代表协议超时。${isHaLesson?'全片展示目标节点重新启动 VM，应用就绪由独立探测示意；未做实机故障验收。':'样片止于 recovery，未展示目标 VM 启动。'}`:'画面中的连线代表全部有效集群通信路径。配置修改比较同一 VM 100 的 pmxcfs 文件层写入，不代表某个 GUI 或 API 请求的完整行为。虚拟机运行状态不由票数动画直接推断。'}</p><p>{isPmxcfs&&<a href='https://github.com/hobbytp/blender_demos/blob/prototype/quorum-pilot/docs/notes/pve-ep03-pmxcfs.md'>第三集分镜与固定源码依据</a>}{isMigrationContent&&<a href='https://github.com/hobbytp/blender_demos/blob/prototype/quorum-pilot/docs/notes/pve-ep02-live-migration.md'>第二集脚本与固定源码依据</a>}{isHaContent&&<a href='https://github.com/hobbytp/blender_demos/blob/prototype/quorum-pilot/docs/notes/pve-ep01-ha-fencing.md'>首集脚本与固定源码依据</a>}<a href='https://github.com/proxmox/pve-docs/blob/master/pmxcfs.adoc'>Proxmox · pmxcfs</a><a href='https://github.com/corosync/corosync/blob/main/man/votequorum.5'>Corosync · votequorum</a><a href='https://github.com/proxmox/pve-docs/blob/master/ha-manager.adoc'>Proxmox · HA</a></p></details>
     </main>
     <footer><span>PVE 图解课 / {isPmxcfs?'03':isMigrationContent?'02':'01'}</span><span>先理解原理，再讨论故障。</span></footer>
   </div>;

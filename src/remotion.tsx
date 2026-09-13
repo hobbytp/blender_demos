@@ -17,9 +17,12 @@ import {MigrationLesson} from './MigrationLesson';
 import {MIGRATION_LESSON_DURATION} from './migration-lesson-timeline';
 import {PmxcfsPilot} from './PmxcfsPilot';
 import {PMXCFS_DURATION} from './pmxcfs-timeline';
+import {PmxcfsLesson} from './PmxcfsLesson';
+import {PMXCFS_LESSON_DURATION} from './pmxcfs-lesson-timeline';
 
 function Root() {
   return <>
+    <Composition id='PmxcfsLesson' component={PmxcfsLesson} durationInFrames={PMXCFS_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='PmxcfsPilot' component={PmxcfsPilot} defaultProps={{blocked:false}} durationInFrames={PMXCFS_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='MigrationLesson' component={MigrationLesson} durationInFrames={MIGRATION_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='MigrationPilot' component={MigrationPilot} defaultProps={{failed:false}} durationInFrames={MIGRATION_DURATION} fps={FPS} width={1920} height={1080}/>

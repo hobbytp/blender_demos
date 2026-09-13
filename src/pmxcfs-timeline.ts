@@ -18,13 +18,14 @@ export const pmxcfsBeats={
   localResult:cue('本机处理自己的消息后，')+20,returned:cue('写调用返回结果。')+24,
   contrast:cue('无仲裁时，写入被拒绝。'),read:cue('旧配置仍可读，'),
 };
-export function pmxcfsStateAt(frame:number,blocked=false){
-  const f=Math.max(0,Math.min(PMXCFS_DURATION-1,Math.floor(frame))),b=pmxcfsBeats;
+export type PmxcfsTiming=typeof pmxcfsBeats & {remoteDatabase?:number};
+export function pmxcfsStateAt(frame:number,blocked=false,duration=PMXCFS_DURATION,b:PmxcfsTiming=pmxcfsBeats){
+  const f=Math.max(0,Math.min(duration-1,Math.floor(frame)));
   const isolated=blocked||f>=b.contrast;
   const delivered=[0,12,24].map(delay=>!blocked&&f>=b.deliver+30+delay);
   const memory=[b.memory+24,b.memory+45,b.memory+75].map((at,i)=>delivered[i]&&f>=at);
   // C finishes later in this teaching schedule; A does not collect per-node disk ACKs.
-  const database=[b.database+30,b.database+55,b.returned+45].map((at,i)=>memory[i]&&f>=at);
+  const database=[b.database+30,b.database+55,b.remoteDatabase??b.returned+45].map((at,i)=>memory[i]&&f>=at);
   const secondRequest=blocked?b.request:b.contrast+12;
   return {frame:f,chapter:pmxcfsChapters.findIndex(c=>f<c.end*30),isolated,
     request:!blocked&&f>=b.request,accepted:!blocked&&f>=b.gate+20,

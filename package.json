@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "voice:pmxcfs-lesson": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py pmxcfs-lesson",
+    "render:pmxcfs-lesson": "remotion render src/remotion.tsx PmxcfsLesson out/pmxcfs-7min-v1.mp4 --codec=h264 --concurrency=4",
     "voice:pmxcfs": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py pmxcfs",
     "render:pmxcfs": "remotion render src/remotion.tsx PmxcfsPilot out/pmxcfs-30s-v1.mp4 --codec=h264 --concurrency=2",
     "voice:migration-lesson": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py migration-lesson",
