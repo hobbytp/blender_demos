@@ -30,6 +30,8 @@ description: Create or improve technical explainer animations that reveal archit
 
 只画已核实或明确标为概念示意的关系。动画时长不能冒充协议超时；收到状态通知不等于一次实际数据写入。若用户只要视觉修订，保留既有事实范围。
 
+涉及分层成功或恢复指标时，分别标注任务完成、系统就绪、业务验收与生产切换的证据。算例写清前提、目标与测量起止；画面中的成功只能覆盖已展示的验收范围。
+
 每个关键动作至少能填出一行：
 
 | 触发 | 来源 → 目标 | 消息/状态 | 接收后的变化 | 观众看到什么 | 依据/简化 |
@@ -54,6 +56,8 @@ description: Create or improve technical explainer animations that reveal archit
 优先复用当前工程。React/SVG 架构动效与网页播放器通常适合 Remotion；数学对象变换可用 Manim；已有 Canvas/其他渲染器能完成任务时继续沿用。按机制选择工具，不为了流水线齐全引入平台或多 Agent 系统。
 
 制作或修改 Remotion/TTS 时，阅读 [制作与验收要点](references/production.md)。它包含帧驱动状态、旁白时间槽、素材分层及导出检查的实际坑点。
+
+出现语音重复、播放时钟异常、导出中断或缓存帧续作时，阅读 [播放诊断与导出恢复](references/playback-and-render-recovery.md)。成片旁白与源音频一致性比对也见该文；按症状使用，不为每个短片建立恢复系统。
 
 用简短分镜表保存“时间段、旁白、触发动作、焦点组件、预期状态、依据”。先用真实 TTS 时长和词边界校准动作，再渲染；时长不够就减少本段信息或调整节奏。
 
