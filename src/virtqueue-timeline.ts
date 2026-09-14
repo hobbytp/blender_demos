@@ -7,8 +7,8 @@ const kick=Math.max(available+24,cue('再通知后端。')+24),consume=cue('后�
 const tap=cue('把数据提交到虚拟网口。')+45,used=cue('后端发布已用环。')+30;
 const irq=Math.max(used+30,cue('再发出完成通知。')+30),read=Math.max(irq+24,cue('驱动读取结果，')+24);
 export const virtqueueBeats={desc,availableEntry:available-15,available,kick,consume,data:consume+30,tap,usedEntry:used-15,used,irq,read,reclaim:Math.max(read+24,cue('回收缓冲区。')+24)};
-export function virtqueueStateAt(frame:number,poll=false){
-  const f=Math.max(0,Math.min(VIRTQUEUE_DURATION-1,Math.floor(frame))),b=virtqueueBeats;
+export function virtqueueStateAt(frame:number,poll=false,duration=VIRTQUEUE_DURATION,b=virtqueueBeats){
+  const f=Math.max(0,Math.min(duration-1,Math.floor(frame)));
   return {frame:f,chapter:virtqueueChapters.findIndex(c=>f<c.end*30),poll,
     descriptor:f>=b.desc,availableEntry:f>=b.availableEntry,available:f>=b.available,kicked:f>=b.kick,
     consumed:f>=b.consume,dataAccessed:f>=b.data,tapAccepted:f>=b.tap,usedEntry:f>=b.usedEntry,used:f>=b.used,

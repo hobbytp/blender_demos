@@ -26,8 +26,12 @@ import {VIRTQUEUE_DURATION} from './virtqueue-timeline';
 import {DURABILITY_LESSON_DURATION} from './durability-lesson-timeline';
 import {DURABILITY_DURATION} from './durability-timeline';
 
+import {VirtqueueLesson} from './VirtqueueLesson';
+import {VIRTQUEUE_LESSON_DURATION} from './virtqueue-lesson-timeline';
+
 function Root() {
   return <>
+    <Composition id='VirtqueueLesson' component={VirtqueueLesson} durationInFrames={VIRTQUEUE_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='VirtqueuePilot' component={VirtqueuePilot} defaultProps={{poll:false}} durationInFrames={VIRTQUEUE_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='DurabilityLesson' component={DurabilityLesson} durationInFrames={DURABILITY_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='DurabilityPilot' component={DurabilityPilot} defaultProps={{powerLoss:false}} durationInFrames={DURABILITY_DURATION} fps={FPS} width={1920} height={1080}/>

@@ -1,6 +1,6 @@
 # 第五集：VirtIO、virtqueue 与 vhost 如何协作？
 
-2026-09-14。课程地图 C3，难度 9 / 架构师优先级 9。承接第四集的块设备边界，深入解释驱动与设备后端如何通过共享访问的内存协作。按既定制作方式先交付 [30 秒机制样片](virtqueue-30s.md)，完整课件随后扩展。
+2026-09-14。课程地图 C3，难度 9 / 架构师优先级 9。承接第四集的块设备边界，深入解释驱动与设备后端如何通过共享访问的内存协作。按既定制作方式先交付 [30 秒机制样片](virtqueue-30s.md)，现已扩展为 [7 分钟完整课件](virtqueue-7min.md)。
 
 ## 核心问题与固定案例
 
@@ -52,7 +52,7 @@ virtio_ring.c 4BBB5EAA36E193F0F7550D399EA360C4245A8FA47564504A3915CBA505A02B42
 qemu-vhost.c A9C81931710CE536D8EB026E240AC8E7E8CAD49ABB7E14C4AC6EC2411BFE4DAE
 ```
 
-## 完整课件拟定结构（约 7 分钟，尚未制作）
+## 完整课件结构（7 分钟，10 章）
 
 | 时间预算 | 主题 | 要显示的机制 |
 | --- | --- | --- |
@@ -62,12 +62,12 @@ qemu-vhost.c A9C81931710CE536D8EB026E240AC8E7E8CAD49ABB7E14C4AC6EC2411BFE4DAE
 | 115–160 秒 | available 的发布协议 | slot 内容、内存屏障、idx 与通知判断；为何不能先发布索引 |
 | 160–205 秒 | 后端如何取用 | 通知唤起检查、取链、访问映射缓冲、选定复制路径提交 TAP |
 | 205–250 秒 | used 与回收 | 后端结束使用、发布完成、通知、驱动读取和回收，索引与生命周期分开 |
-| 250–290 秒 | 通知抑制与轮询 | 本次不发完成通知仍可读 used；重新启用通知的竞争需额外源码核查后演示 |
+| 250–290 秒 | 通知抑制与轮询 | 本次不发完成通知仍可读 used；独立展示重新开启通知、屏障与再检查的竞态 |
 | 290–335 秒 | vhost 优化的边界 | 配置仍由 QEMU 组织，数据面位置变化；不推断全程零拷贝或消除所有切换 |
 | 335–375 秒 | TX 完成到底保证什么 | Guest 缓冲可回收、TAP 提交、远端 ACK、应用收到各自边界 |
 | 375–420 秒 | 三问与回放 | 发布顺序、通知是否承载数据、used 是否表示远端收到；完整链回放 |
 
-不把 packed ring、RX、多队列、vhost-user/DPDK 或零拷贝挤进本集。它们有不同的结构/后端/完成条件，可作为后续专题；上述长片预算不是已生成旁白时长。
+不把 packed ring、RX、多队列、vhost-user/DPDK 或零拷贝挤进本集。它们有不同的结构/后端/完成条件，可作为后续专题；实际旁白共 376.752 秒，其余为观察停顿。
 
 ## 制作中的专业修订
 
@@ -76,3 +76,7 @@ qemu-vhost.c A9C81931710CE536D8EB026E240AC8E7E8CAD49ABB7E14C4AC6EC2411BFE4DAE
 - 网络：把 TAP 提交与远端收包分开；不把 TX used.len=0 误讲为零字节发送。
 - 动效：描述符到缓冲区使用静态虚线地址引用，真实数据走独立蓝色路径；通知走琥珀色线路，不把通知当作数据包。
 - 验证：正常通知与主动轮询都须先读 used 才回收；教学秒数不是实测时延。没有实机发包、抓包或内核跟踪结果。
+
+### 完整课件补充核查：通知恢复竞态
+
+Linux v6.14 [virtio_ring.c:893](https://github.com/torvalds/linux/blob/v6.14/drivers/virtio/virtio_ring.c#L893) 的 `virtqueue_enable_cb_prepare_split` 清除 NO_INTERRUPT 标志（本例无 EVENT_IDX），保存驱动的 last_used_idx；[virtqueue_poll:2603](https://github.com/torvalds/linux/blob/v6.14/drivers/virtio/virtio_ring.c#L2603) 先执行 `virtio_mb` 再比较 used.idx；[virtqueue_enable_cb:2627](https://github.com/torvalds/linux/blob/v6.14/drivers/virtio/virtio_ring.c#L2627) 将两者串联，有待处理结果则返回 false。动画明确标为通用接口竞态示意，不把它当作 virtio-net 全部完成调度路径。

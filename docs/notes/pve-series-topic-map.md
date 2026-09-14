@@ -27,7 +27,7 @@
 
 以下评分与其余排序仍是候选；首批实际执行以上表为准。
 
-2026-09-14 继续按 D2 → C3 的建议推进第五集 VirtIO / virtqueue / vhost（9/9）：[30 秒样片](virtqueue-30s.md)、[固定来源与完整课程大纲](pve-ep05-virtqueue.md)。选取 VirtIO-net TX 的单请求 split ring 路径，先验证描述符、通知与回收；完整课件待扩展。
+2026-09-14 继续按 D2 → C3 的建议推进第五集 VirtIO / virtqueue / vhost（9/9）：[30 秒样片](virtqueue-30s.md)、[固定来源与完整课程结构](pve-ep05-virtqueue.md)。选取 VirtIO-net TX 的单请求 split ring 路径，验证描述符、通知与回收后，现已扩展为 [7 分钟完整课件](virtqueue-7min.md)，增加发布屏障、通知恢复竞态和分层完成证据。
 
 ## 持续专业审查约定
 
