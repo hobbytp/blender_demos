@@ -38,8 +38,11 @@ import {RestorePilot} from './RestorePilot';
 import {RESTORE_DURATION} from './restore-timeline';
 import {RestoreLesson} from './RestoreLesson';
 import {RESTORE_LESSON_DURATION} from './restore-lesson-timeline';
+import {LifecyclePilot} from './LifecyclePilot';
+import {LIFECYCLE_DURATION} from './lifecycle-timeline';
 function Root() {
   return <>
+    <Composition id='LifecyclePilot' component={LifecyclePilot} durationInFrames={LIFECYCLE_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='RestoreLesson' component={RestoreLesson} durationInFrames={RESTORE_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='RestorePilot' component={RestorePilot} durationInFrames={RESTORE_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='BackupLesson' component={BackupLesson} durationInFrames={BACKUP_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>

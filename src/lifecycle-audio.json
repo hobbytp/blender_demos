@@ -1,0 +1,82 @@
+[
+  {
+    "start": 0,
+    "end": 7.5,
+    "duration": 5.376,
+    "file": "audio/quorum-lifecycle/01.mp3",
+    "captions": [
+      {
+        "start": 0.096,
+        "text": "点击启动，"
+      },
+      {
+        "start": 1.231,
+        "text": "请求先到代理入口，"
+      },
+      {
+        "start": 2.828,
+        "text": "再交给本机的特权服务。"
+      }
+    ]
+  },
+  {
+    "start": 7.5,
+    "end": 15,
+    "duration": 5.904,
+    "file": "audio/quorum-lifecycle/02.mp3",
+    "captions": [
+      {
+        "start": 7.596,
+        "text": "服务创建后台任务，"
+      },
+      {
+        "start": 9.24,
+        "text": "返回任务号。"
+      },
+      {
+        "start": 10.613,
+        "text": "这不是启动成功的证明。"
+      }
+    ]
+  },
+  {
+    "start": 15,
+    "end": 22.5,
+    "duration": 5.856,
+    "file": "audio/quorum-lifecycle/03.mp3",
+    "captions": [
+      {
+        "start": 15.096,
+        "text": "后台取得配置锁，"
+      },
+      {
+        "start": 16.624,
+        "text": "检查状态，准备资源，"
+      },
+      {
+        "start": 18.603,
+        "text": "再启动虚拟机进程。"
+      }
+    ]
+  },
+  {
+    "start": 22.5,
+    "end": 30,
+    "duration": 6.144,
+    "file": "audio/quorum-lifecycle/04.mp3",
+    "captions": [
+      {
+        "start": 22.596,
+        "text": "任务结果和运行状态，"
+      },
+      {
+        "start": 24.321,
+        "text": "需要分别查询；"
+      },
+      {
+        "start": 25.791,
+        "text": "应用是否就绪，还要验证。"
+      }
+    ]
+  }
+]
