@@ -8,8 +8,8 @@ export const backupBeats={freezeRequest:cue('先请求冻结文件系统。')+24
   backupRequest:protection-24,protection,started:protection+24,thawRequest,thawed,thawAck:thawed+18,
   copiedY:Math.max(thawed+48,cue('复制仍在继续。')+45),newWrite:cue('新写入到来，')+15,
   oldRead,oldSent:oldRead+18,oldSafe:oldRead+36,overwrite:Math.max(oldRead+60,cue('再允许覆盖。')+36)};
-export function backupStateAt(frame:number){
-  const f=Math.max(0,Math.min(BACKUP_DURATION-1,Math.floor(frame))),b=backupBeats;
+export function backupStateAt(frame:number,duration=BACKUP_DURATION,b=backupBeats){
+  const f=Math.max(0,Math.min(duration-1,Math.floor(frame)));
   return {frame:f,chapter:backupChapters.findIndex(c=>f<c.end*30),freezeRequested:f>=b.freezeRequest,syncing:f>=b.sync&&f<b.frozen,
     frozen:f>=b.frozen&&f<b.thawed,freezeAcknowledged:f>=b.freezeAck,protected:f>=b.protection,started:f>=b.started,
     startAcknowledged:f>=b.started+18,thawed:f>=b.thawed,thawAcknowledged:f>=b.thawAck,copiedY:f>=b.copiedY,newWrite:f>=b.newWrite,

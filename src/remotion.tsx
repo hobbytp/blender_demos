@@ -31,9 +31,12 @@ import {VIRTQUEUE_LESSON_DURATION} from './virtqueue-lesson-timeline';
 
 import {BackupPilot} from './BackupPilot';
 import {BACKUP_DURATION} from './backup-timeline';
+import {BackupLesson} from './BackupLesson';
+import {BACKUP_LESSON_DURATION} from './backup-lesson-timeline';
 
 function Root() {
   return <>
+    <Composition id='BackupLesson' component={BackupLesson} durationInFrames={BACKUP_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='BackupPilot' component={BackupPilot} durationInFrames={BACKUP_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='VirtqueueLesson' component={VirtqueueLesson} durationInFrames={VIRTQUEUE_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='VirtqueuePilot' component={VirtqueuePilot} defaultProps={{poll:false}} durationInFrames={VIRTQUEUE_DURATION} fps={FPS} width={1920} height={1080}/>
