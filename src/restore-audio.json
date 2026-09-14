@@ -1,0 +1,98 @@
+[
+  {
+    "start": 0,
+    "end": 7.5,
+    "duration": 6.648,
+    "file": "audio/quorum-restore/01.mp3",
+    "captions": [
+      {
+        "start": 0.096,
+        "text": "归档恢复完成，"
+      },
+      {
+        "start": 1.659,
+        "text": "业务就回来了吗？"
+      },
+      {
+        "start": 3.09,
+        "text": "先把配置和磁盘，"
+      },
+      {
+        "start": 4.641,
+        "text": "恢复到隔离环境。"
+      }
+    ]
+  },
+  {
+    "start": 7.5,
+    "end": 14.5,
+    "duration": 6.816,
+    "file": "audio/quorum-restore/02.mp3",
+    "captions": [
+      {
+        "start": 7.596,
+        "text": "磁盘写完，"
+      },
+      {
+        "start": 8.626,
+        "text": "再启动虚拟机。"
+      },
+      {
+        "start": 10.278,
+        "text": "系统开始运行，"
+      },
+      {
+        "start": 11.829,
+        "text": "数据库仍可能恢复中。"
+      }
+    ]
+  },
+  {
+    "start": 14.5,
+    "end": 22.5,
+    "duration": 7.56,
+    "file": "audio/quorum-restore/03.mp3",
+    "captions": [
+      {
+        "start": 14.596,
+        "text": "这个一致快照保留了日志。"
+      },
+      {
+        "start": 17.035,
+        "text": "数据库回放日志，"
+      },
+      {
+        "start": 18.539,
+        "text": "再接受连接；"
+      },
+      {
+        "start": 19.766,
+        "text": "业务还要单独校验。"
+      }
+    ]
+  },
+  {
+    "start": 22.5,
+    "end": 30,
+    "duration": 6.552,
+    "file": "audio/quorum-restore/04.mp3",
+    "captions": [
+      {
+        "start": 22.596,
+        "text": "发出查询，"
+      },
+      {
+        "start": 23.812,
+        "text": "核对返回的数据。"
+      },
+      {
+        "start": 25.521,
+        "text": "本次检查通过，"
+      },
+      {
+        "start": 26.806,
+        "text": "不代表全部业务恢复。"
+      }
+    ]
+  }
+]
