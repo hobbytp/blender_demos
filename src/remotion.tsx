@@ -21,11 +21,14 @@ import {PmxcfsLesson} from './PmxcfsLesson';
 import {PMXCFS_LESSON_DURATION} from './pmxcfs-lesson-timeline';
 import {DurabilityPilot} from './DurabilityPilot';
 import {DurabilityLesson} from './DurabilityLesson';
+import {VirtqueuePilot} from './VirtqueuePilot';
+import {VIRTQUEUE_DURATION} from './virtqueue-timeline';
 import {DURABILITY_LESSON_DURATION} from './durability-lesson-timeline';
 import {DURABILITY_DURATION} from './durability-timeline';
 
 function Root() {
   return <>
+    <Composition id='VirtqueuePilot' component={VirtqueuePilot} defaultProps={{poll:false}} durationInFrames={VIRTQUEUE_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='DurabilityLesson' component={DurabilityLesson} durationInFrames={DURABILITY_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='DurabilityPilot' component={DurabilityPilot} defaultProps={{powerLoss:false}} durationInFrames={DURABILITY_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='PmxcfsLesson' component={PmxcfsLesson} durationInFrames={PMXCFS_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>

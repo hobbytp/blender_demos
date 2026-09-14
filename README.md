@@ -18,6 +18,8 @@ Remotion 驱动的 PVE 图解课件。用于评审画面、节奏和因果解释
 
 ## 播放
 
+第五集 VirtIO / virtqueue：[30 秒机制样片](docs/notes/virtqueue-30s.md)（`?sample=virtqueue`）、[源码依据与完整课程大纲](docs/notes/pve-ep05-virtqueue.md)。`npm.cmd run render:virtqueue` 导出 `out/virtqueue-30s-v1.mp4`，展示描述符、available/used、通知和发送缓冲回收，支持无旁白轮询对照。完整第五集尚未制作。
+
 需要 Node.js 24 和 npm。
 
 ```powershell

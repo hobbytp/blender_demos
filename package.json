@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "voice:virtqueue": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py virtqueue",
+    "render:virtqueue": "remotion render src/remotion.tsx VirtqueuePilot out/virtqueue-30s-v1.mp4 --codec=h264 --concurrency=2",
     "voice:durability-lesson": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py durability-lesson",
     "render:durability-lesson": "remotion render src/remotion.tsx DurabilityLesson out/write-durability-7min-v1.mp4 --codec=h264 --concurrency=4",
     "voice:durability": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py durability",
