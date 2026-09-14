@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "voice:backup": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py backup",
+    "render:backup": "remotion render src/remotion.tsx BackupPilot out/backup-consistency-30s-v1.mp4 --codec=h264 --concurrency=1 --timeout=120000",
     "voice:virtqueue-lesson": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py virtqueue-lesson",
     "render:virtqueue-lesson": "remotion render src/remotion.tsx VirtqueueLesson out/virtqueue-7min-v1.mp4 --codec=h264 --concurrency=1 --timeout=120000",
     "voice:virtqueue": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py virtqueue",

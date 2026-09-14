@@ -1,0 +1,78 @@
+[
+  {
+    "start": 0.3,
+    "end": 7.4,
+    "duration": 4.56,
+    "file": "audio/quorum-backup/01.mp3",
+    "captions": [
+      {
+        "start": 0.396,
+        "text": "先请求冻结文件系统。"
+      },
+      {
+        "start": 2.661,
+        "text": "代理同步并冻结。"
+      }
+    ]
+  },
+  {
+    "start": 7.5,
+    "end": 14.1,
+    "duration": 4.752,
+    "file": "audio/quorum-backup/02.mp3",
+    "captions": [
+      {
+        "start": 7.596,
+        "text": "备份保护建立后，"
+      },
+      {
+        "start": 8.904,
+        "text": "随后解冻。"
+      },
+      {
+        "start": 10.185,
+        "text": "复制仍在继续。"
+      }
+    ]
+  },
+  {
+    "start": 14.2,
+    "end": 23.1,
+    "duration": 4.536,
+    "file": "audio/quorum-backup/03.mp3",
+    "captions": [
+      {
+        "start": 14.296,
+        "text": "新写入到来，"
+      },
+      {
+        "start": 15.558,
+        "text": "先备份这块旧数据，"
+      },
+      {
+        "start": 17.097,
+        "text": "再允许覆盖。"
+      }
+    ]
+  },
+  {
+    "start": 23.2,
+    "end": 29.9,
+    "duration": 5.28,
+    "file": "audio/quorum-backup/04.mp3",
+    "captions": [
+      {
+        "start": 23.296,
+        "text": "文件系统冻结，"
+      },
+      {
+        "start": 24.639,
+        "text": "不替代应用协调。"
+      },
+      {
+        "start": 26.325,
+        "text": "备份仍未完成。"
+      }
+    ]
+  }
+]
