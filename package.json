@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "voice:restore-lesson": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py restore-lesson",
+    "render:restore-lesson": "remotion render src/remotion.tsx RestoreLesson out/disaster-recovery-7min-v1.mp4 --codec=h264 --concurrency=1 --timeout=120000 --port=3317",
     "voice:restore": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py restore",
     "render:restore": "remotion render src/remotion.tsx RestorePilot out/disaster-recovery-30s-v1.mp4 --codec=h264 --concurrency=1 --timeout=120000",
     "voice:backup-lesson": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py backup-lesson",

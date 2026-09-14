@@ -11,7 +11,7 @@ import edge_tts
 
 ROOT = Path(__file__).resolve().parent.parent
 EDITION = sys.argv[1] if len(sys.argv) > 1 else 'dark'
-assert EDITION in ('dark', 'editorial', 'flow', 'lesson', 'ha', 'ha-lesson', 'migration', 'migration-lesson', 'pmxcfs', 'pmxcfs-lesson', 'durability', 'durability-lesson', 'virtqueue', 'virtqueue-lesson', 'backup', 'backup-lesson', 'restore')
+assert EDITION in ('dark', 'editorial', 'flow', 'lesson', 'ha', 'ha-lesson', 'migration', 'migration-lesson', 'pmxcfs', 'pmxcfs-lesson', 'durability', 'durability-lesson', 'virtqueue', 'virtqueue-lesson', 'backup', 'backup-lesson', 'restore', 'restore-lesson')
 PROBE = ROOT / "node_modules/@remotion/compositor-win32-x64-msvc/ffprobe.exe"
 
 

@@ -1,22 +1,21 @@
-import {useEffect,useState} from 'react';
+import {useEffect,useState,type ReactNode} from 'react';
 import {AbsoluteFill,cancelRender,continueRender,delayRender,Html5Audio,Sequence,staticFile,useCurrentFrame} from 'remotion';
 import {Card,Text,Wire} from './HaPilot';
 import audio from './restore-audio.json';
-import {restoreBeats as b,restoreStateAt} from './restore-timeline';
+import {restoreBeats,restoreStateAt} from './restore-timeline';
 const green='#347d70',blue='#347aa8',amber='#b18635',purple='#7e759c',muted='#73847e',paper='#f8f7f2';
-export function RestorePilot(){
-  const f=useCurrentFrame(),s=restoreStateAt(f);
+export function RestoreScene({frame:f,state:s,timing:b=restoreBeats,title,caption='',dim=false,note,footer,children}:{frame:number;state:ReturnType<typeof restoreStateAt>;timing?:typeof restoreBeats;title?:string;caption?:string;dim?:boolean;note?:string;footer?:string;children?:ReactNode}){
   const [handle]=useState(()=>delayRender('Restore font'));
   useEffect(()=>{new FontFace('Quorum Noto',`url(${staticFile('fonts/NotoSansSC.ttf')})`,{weight:'100 900'}).load().then(font=>{document.fonts.add(font);continueRender(handle);}).catch(cancelRender);},[handle]);
   const flow=(points:number[][],end:number,color=amber,n=24)=><Wire points={points} frame={f} active={f>=end-n&&f<end} progress={Math.max(0,Math.min(1,(f-end+n)/n))} color={color}/>;
-  const caption=audio.find(c=>f>=c.start*30&&f<(c.start+c.duration+.25)*30)?.captions.filter(c=>c.start*30<=f).at(-1)?.text??'';
   return <AbsoluteFill style={{background:paper,fontFamily:'Quorum Noto, sans-serif'}}>
     <svg viewBox='0 0 1920 1080' width='100%' height='100%' role='img' aria-label='灾难恢复内部机制：归档、磁盘、数据库与业务校验'>
       <defs>{[green,blue,amber,purple,muted].map(color=><marker key={color} id={`ha-${color.slice(1)}`} markerWidth={7} markerHeight={7} refX={6} refY={3.5} orient='auto'><path d='M1 1 L6 3.5 L1 6' fill='none' stroke={color} strokeWidth={1.5}/></marker>)}</defs>
       <Text x={60} y={48} size={20} bold color={green}>PVE 07 / DISASTER RECOVERY · FOLLOW THE EVIDENCE</Text>
-      <Text x={60} y={110} size={42} bold>{['归档恢复完成，业务就回来了吗？','磁盘 → VM → 数据库：逐层恢复','展开数据库：日志如何推动恢复？','让查询往返，再判断本次校验'][s.chapter]}</Text>
+      <Text x={60} y={110} size={42} bold>{title??['归档恢复完成，业务就回来了吗？','磁盘 → VM → 数据库：逐层恢复','展开数据库：日志如何推动恢复？','让查询往返，再判断本次校验'][s.chapter]}</Text>
       <Text x={60} y={158} size={23} color={muted}>普通 VMA 恢复 · 新 VM / 隔离网络 · 单磁盘完整一致快照 · PostgreSQL 18 · 无外部依赖</Text>
-      <Text x={60} y={202} size={22} bold color={blue}>选定成功路径的机制示意；未执行实机演练，动画秒数不是恢复耗时</Text>
+      <Text x={60} y={202} size={22} bold color={blue}>{note??'选定成功路径的机制示意；未执行实机演练，动画秒数不是恢复耗时'}</Text>
+      <g opacity={dim?.12:1}>
       {[[60,390,'备份与验收'],[500,460,'Host · 恢复编排'],[1010,850,'Guest · VM 内部']].map(([x,w,title])=><g key={title}><rect x={Number(x)} y={230} width={Number(w)} height={680} rx={20} fill={Number(x)===1010?'#f1eae2':'#e6eee7'} stroke='#c7d7ce'/><Text x={Number(x)+25} y={275} size={27} bold>{title}</Text></g>)}
       <Card x={90} y={320} w={330} title='VMA · 配置' value='虚拟硬件与磁盘映射' color={blue} small/>
       <Card x={90} y={500} w={330} title='VMA · 磁盘内容' value='完整数据 + WAL 日志' color={blue} small/>
@@ -52,10 +51,16 @@ export function RestorePilot(){
       {flow([[1830,390],[1853,390],[1853,790],[1830,790]],b.sqlResult,green,18)}
       {flow([[1570,820],[1570,892],[435,892],[435,795],[420,795]],b.response,green,18)}
       <Text x={620} y={888} size={18} color={amber}>查询 →</Text><Text x={820} y={888} size={18} color={green}>← 结果</Text>
-      <Text x={960} y={950} size={25} center bold color={s.checked?green:amber}>{s.checked?'已知数据查询通过（示意）；其余功能与生产切换仍未验证':s.ready?'数据库就绪，业务校验仍在等待':s.restored?'磁盘与配置恢复完成，业务尚无可用证据':'每层分别等待结果，不提前点亮下游状态'}</Text>
+      </g>
+      {children}
+      <Text x={960} y={950} size={25} center bold color={!dim&&s.checked?green:amber}>{footer??(s.checked?'已知数据查询通过（示意）；其余功能与生产切换仍未验证':s.ready?'数据库就绪，业务校验仍在等待':s.restored?'磁盘与配置恢复完成，业务尚无可用证据':'每层分别等待结果，不提前点亮下游状态')}</Text>
       <Text x={960} y={990} size={21} center color={muted}>蓝：归档数据　紫：日志回放　金：控制 / 查询　绿：结果　｜　全程隔离，未接回生产</Text>
       <rect x={0} y={1010} width={1920} height={70} fill='#243f4b'/><Text x={960} y={1056} size={29} center bold color='#fffefa'>{caption}</Text>
     </svg>
-    {audio.map(c=><Sequence key={c.file} from={Math.round(c.start*30)} durationInFrames={Math.ceil(c.duration*30)}><Html5Audio src={staticFile(c.file)}/></Sequence>)}
   </AbsoluteFill>;
+}
+export function RestorePilot(){
+  const f=useCurrentFrame(),s=restoreStateAt(f);
+  const caption=audio.find(c=>f>=c.start*30&&f<(c.start+c.duration+.25)*30)?.captions.filter(c=>c.start*30<=f).at(-1)?.text??'';
+  return <><RestoreScene frame={f} state={s} caption={caption}/>{audio.map(c=><Sequence key={c.file} from={Math.round(c.start*30)} durationInFrames={Math.ceil(c.duration*30)}><Html5Audio src={staticFile(c.file)}/></Sequence>)}</>;
 }

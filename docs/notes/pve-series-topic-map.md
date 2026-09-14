@@ -31,7 +31,7 @@
 
 ## 持续专业审查约定
 
-2026-09-14 用户确认第七集 F5 灾难恢复与 RPO/RTO（9/9），承接备份一致性。[固定源码与分镜](pve-ep07-disaster-recovery.md)。先做 30 秒普通 VMA 恢复样片，观察磁盘、VM、数据库和业务查询的独立状态；完整课程及 RPO/RTO 详细时间轴待样片评审后展开。
+2026-09-14 用户确认第七集 F5 灾难恢复与 RPO/RTO（9/9），承接备份一致性。[固定源码与分镜](pve-ep07-disaster-recovery.md)。30 秒样片获认可后，继续扩展 [7 分钟完整课与制作记录](disaster-recovery-7min.md)：保留磁盘、VM、数据库和业务查询的独立状态，增加 RPO/RTO 算例、隔离核验、验收范围与失败对照。
 
 2026-09-14 用户确认第六集 F3 备份与应用一致性（9/9）：[源码与分镜](pve-ep06-backup-consistency.md)、[30 秒样片](backup-consistency-30s.md)、[7 分钟完整课件](backup-consistency-7min.md)。从 QGA 冻结、备份保护建立和 thaw，进一步观察旧块先复制后覆盖，并增加应用协调、错误清理与恢复证据。Ceph 两题的部署前提仍保留。
 
