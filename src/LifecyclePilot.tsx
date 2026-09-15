@@ -1,15 +1,13 @@
-import {useEffect,useState} from 'react';
+import {useEffect,useState,type ReactNode} from 'react';
 import {AbsoluteFill,cancelRender,continueRender,delayRender,Html5Audio,Sequence,staticFile,useCurrentFrame} from 'remotion';
 import {Card,Text,Wire} from './HaPilot';
 import audio from './lifecycle-audio.json';
-import {lifecycleBeats as b,lifecycleStateAt} from './lifecycle-timeline';
+import {lifecycleBeats,lifecycleStateAt} from './lifecycle-timeline';
 const green='#347d70',blue='#347aa8',amber='#b18635',purple='#7e759c',muted='#73847e',paper='#f8f7f2';
-export function LifecyclePilot(){
-  const f=useCurrentFrame(),s=lifecycleStateAt(f);
+export function LifecycleScene({frame:f,state:s,timing:b=lifecycleBeats,title,caption='',note,footer,dim=false,children}:{frame:number;state:ReturnType<typeof lifecycleStateAt>;timing?:typeof lifecycleBeats;title?:string;caption?:string;note?:string;footer?:string;dim?:boolean;children?:ReactNode}){
   const [handle]=useState(()=>delayRender('Lifecycle font'));
   useEffect(()=>{new FontFace('Quorum Noto',`url(${staticFile('fonts/NotoSansSC.ttf')})`,{weight:'100 900'}).load().then(font=>{document.fonts.add(font);continueRender(handle);}).catch(cancelRender);},[handle]);
-  const caption=audio.find(c=>f>=c.start*30&&f<(c.start+c.duration+.25)*30)?.captions.filter(c=>c.start*30<=f).at(-1)?.text??'';
-  const flow=(points:number[][],start:number,end:number,color=amber)=><Wire points={points} frame={f} active={f>=start&&f<end} progress={Math.max(0,Math.min(1,(f-start)/(end-start)))} color={color}/>;
+  const flow=(points:number[][],start:number,end:number,color=amber)=>{const departure=Math.max(start,end-24);return <Wire points={points} frame={f} active={f>=departure&&f<end} progress={Math.max(0,Math.min(1,(f-departure)/(end-departure)))} color={color}/>;};
   const query=(start:number,result:number,y:number,color:string)=><g opacity={f>=start?1:.15}>
     {flow([[390,y],[500,y]],start,start+12,amber)}
     {flow([[500,y+28],[390,y+28]],start+12,result,color)}
@@ -18,9 +16,10 @@ export function LifecyclePilot(){
     <svg viewBox='0 0 1920 1080' role='img' aria-label='PVE 启动机制：API、后台任务、锁与 VM 状态' style={{width:'100%',height:'100%'}}>
       <defs>{[green,blue,amber,purple].map(color=><marker key={color} id={`ha-${color.slice(1)}`} markerWidth='7' markerHeight='7' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6' fill='none' stroke={color} strokeWidth='1.5'/></marker>)}</defs>
       <Text x={60} y={48} size={21} color={green} bold>PVE 08 / VM LIFECYCLE · FOLLOW THE REQUEST</Text>
-      <Text x={60} y={112} size={43} bold>点击启动之后，PVE 内部发生了什么？</Text>
-      <Text x={60} y={160} size={24} color={muted}>目标节点本机 API · VM 100 已停止 · 非 HA / 非模板 · 权限与 quorum 正常</Text>
-      <Text x={60} y={203} size={25} bold color={blue}>{s.taskObserved?'任务结果与运行状态是两份证据':s.worker?'任务号返回与后台执行并行；此处按教学节奏展开':'跟踪 POST /nodes/pve1/qemu/100/status/start'}</Text>
+      <Text x={60} y={112} size={43} bold>{title??'点击启动之后，PVE 内部发生了什么？'}</Text>
+      <Text x={60} y={160} size={24} color={muted}>正常主线前提：目标节点本机 API · VM 100 初始停止 · 非 HA / 非模板</Text>
+      <Text x={60} y={203} size={25} bold color={blue}>{note??(s.taskObserved?'任务结果与运行状态是两份证据':s.worker?'任务号返回与后台执行并行；此处按教学节奏展开':'跟踪 POST /nodes/pve1/qemu/100/status/start')}</Text>
+      <g opacity={dim?.10:1}>
       <rect x={60} y={230} width={360} height={675} rx={24} fill='#e9efe9'/>
       <rect x={460} y={230} width={1400} height={675} rx={24} fill='#f0ece3'/>
       <Text x={85} y={270} size={26} bold>浏览器 / 管理客户端</Text>
@@ -65,10 +64,16 @@ export function LifecyclePilot(){
       <Text x={680} y={891} size={18} center color={muted}>两次 GET 均经原 API 路径；此处折叠转发细节</Text>
       <Text x={1635} y={772} size={22} center color={amber}>锁只保护启动编排</Text>
       <Text x={1635} y={813} size={22} center>不是 VM 整个运行期的锁</Text>
-      <Text x={960} y={949} size={27} center bold color={s.vmObserved?amber:purple}>{s.vmObserved?'任务 OK + VM running，仍需独立验证应用就绪':s.upid?'HTTP 请求已返回；后台任务仍可继续执行':'请求、任务、VM：观察不同对象的状态'}</Text>
+      </g>
+      {children}
+      <Text x={960} y={949} size={27} center bold color={dim?amber:s.vmObserved?amber:purple}>{footer??(s.vmObserved?'任务 OK + VM running，仍需独立验证应用就绪':s.upid?'HTTP 请求已返回；后台任务仍可继续执行':'请求、任务、VM：观察不同对象的状态')}</Text>
       <Text x={960} y={990} size={20} center color={muted}>蓝：请求 / VM 状态　紫：任务创建 / UPID　金：启动控制　绿：任务结果　｜　教学示意，未启动真实 VM</Text>
       <rect x={0} y={1010} width={1920} height={70} fill='#243f4b'/><Text x={960} y={1056} size={29} center bold color='#fffefa'>{caption}</Text>
     </svg>
-    {audio.map(c=><Sequence key={c.file} from={Math.round(c.start*30)} durationInFrames={Math.ceil(c.duration*30)}><Html5Audio src={staticFile(c.file)}/></Sequence>)}
   </AbsoluteFill>;
+}
+export function LifecyclePilot(){
+  const f=useCurrentFrame(),s=lifecycleStateAt(f);
+  const caption=audio.find(c=>f>=c.start*30&&f<(c.start+c.duration+.25)*30)?.captions.filter(c=>c.start*30<=f).at(-1)?.text??'';
+  return <><LifecycleScene frame={f} state={s} caption={caption}/>{audio.map(c=><Sequence key={c.file} from={Math.round(c.start*30)} durationInFrames={Math.ceil(c.duration*30)}><Html5Audio src={staticFile(c.file)}/></Sequence>)}</>;
 }

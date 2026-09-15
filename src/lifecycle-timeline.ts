@@ -8,8 +8,8 @@ export const lifecycleBeats={request:cue('点击启动，')+12,proxy:cue('请求
   launch:cue('再启动虚拟机进程。')+18,process:cue('再启动虚拟机进程。')+42,
   done:cue('任务结果和运行状态，')+6,taskQuery:cue('任务结果和运行状态，')+18,taskResult:cue('任务结果和运行状态，')+42,
   vmQuery:cue('需要分别查询；')+6,vmResult:cue('需要分别查询；')+30};
-export function lifecycleStateAt(frame:number){
-  const f=Math.max(0,Math.min(LIFECYCLE_DURATION-1,Math.floor(frame))),b=lifecycleBeats;
+export function lifecycleStateAt(frame:number,duration=LIFECYCLE_DURATION,b=lifecycleBeats){
+  const f=Math.max(0,Math.min(duration-1,Math.floor(frame)));
   return {frame:f,chapter:lifecycleChapters.findIndex(c=>f<c.end*30),proxy:f>=b.proxy,daemon:f>=b.daemon,
     worker:f>=b.fork,upid:f>=b.upid,locked:f>=b.lock&&f<b.done,checked:f>=b.check,resources:f>=b.resources,
     qemu:f>=b.process,taskDone:f>=b.done,taskObserved:f>=b.taskResult,vmObserved:f>=b.vmResult,
