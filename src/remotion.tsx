@@ -46,8 +46,11 @@ import {StoragePilot} from './StoragePilot';
 import {STORAGE_DURATION} from './storage-timeline';
 import {StorageLesson} from './StorageLesson';
 import {STORAGE_LESSON_DURATION} from './storage-lesson-timeline';
+import {CorosyncPilot} from './CorosyncPilot';
+import {COROSYNC_DURATION} from './corosync-timeline';
 function Root() {
   return <>
+    <Composition id='CorosyncPilot' component={CorosyncPilot} durationInFrames={COROSYNC_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='StorageLesson' component={StorageLesson} durationInFrames={STORAGE_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='StoragePilot' component={StoragePilot} durationInFrames={STORAGE_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='LifecycleLesson' component={LifecycleLesson} durationInFrames={LIFECYCLE_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>

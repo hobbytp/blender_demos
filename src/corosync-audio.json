@@ -1,0 +1,94 @@
+[
+  {
+    "start": 0.3,
+    "end": 6.7,
+    "duration": 5.544,
+    "file": "audio/quorum-corosync/01.mp3",
+    "captions": [
+      {
+        "start": 0.396,
+        "text": "正常时，"
+      },
+      {
+        "start": 1.311,
+        "text": "Totem的token轮转；"
+      },
+      {
+        "start": 3.116,
+        "text": "Knet经可用链路传递消息。"
+      }
+    ]
+  },
+  {
+    "start": 7.0,
+    "end": 13.8,
+    "duration": 6.6,
+    "file": "audio/quorum-corosync/02.mp3",
+    "captions": [
+      {
+        "start": 7.096,
+        "text": "到C的链路全断。"
+      },
+      {
+        "start": 8.887,
+        "text": "链路状态改变；"
+      },
+      {
+        "start": 10.148,
+        "text": "成员仍是ABC，"
+      },
+      {
+        "start": 11.525,
+        "text": "等待token超时。"
+      }
+    ]
+  },
+  {
+    "start": 14.1,
+    "end": 22.7,
+    "duration": 7.296,
+    "file": "audio/quorum-corosync/03.mp3",
+    "captions": [
+      {
+        "start": 14.196,
+        "text": "token超时后，"
+      },
+      {
+        "start": 15.4,
+        "text": "Totem进入gather、"
+      },
+      {
+        "start": 17.055,
+        "text": "commit、recovery，"
+      },
+      {
+        "start": 18.756,
+        "text": "再安装regular成员视图。"
+      }
+    ]
+  },
+  {
+    "start": 23.0,
+    "end": 29.9,
+    "duration": 6.624,
+    "file": "audio/quorum-corosync/04.mp3",
+    "captions": [
+      {
+        "start": 23.096,
+        "text": "同步收到新成员。"
+      },
+      {
+        "start": 24.887,
+        "text": "votequorum重算："
+      },
+      {
+        "start": 26.322,
+        "text": "AB两票有quorum，"
+      },
+      {
+        "start": 27.977,
+        "text": "C一票没有。"
+      }
+    ]
+  }
+]
