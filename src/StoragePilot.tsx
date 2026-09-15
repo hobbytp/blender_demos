@@ -1,20 +1,21 @@
-import {useEffect,useState} from 'react';
+import {useEffect,useState,type ReactNode} from 'react';
 import {AbsoluteFill,cancelRender,continueRender,delayRender,Html5Audio,Sequence,staticFile,useCurrentFrame} from 'remotion';
 import {Card,Text,Wire} from './HaPilot';
 import audio from './storage-audio.json';
-import {storageBeats as b,storageStateAt} from './storage-timeline';
+import {storageBeats,storageStateAt} from './storage-timeline';
 const blue='#347aa8',green='#347d70',amber='#b18635',muted='#73847e',purple='#7e759c',paper='#f8f7f2';
-export function StoragePilot(){
-  const f=useCurrentFrame(),s=storageStateAt(f),[handle]=useState(()=>delayRender('Storage font'));
+export function StorageScene({frame:f,state:s,timing:b=storageBeats,title,caption='',note,footer,dim=false,children}:{frame:number;state:ReturnType<typeof storageStateAt>;timing?:typeof storageBeats;title?:string;caption?:string;note?:string;footer?:string;dim?:boolean;children?:ReactNode}){
+  const [handle]=useState(()=>delayRender('Storage font'));
   useEffect(()=>{new FontFace('Quorum Noto',`url(${staticFile('fonts/NotoSansSC.ttf')})`,{weight:'100 900'}).load().then(font=>{document.fonts.add(font);continueRender(handle);}).catch(cancelRender);},[handle]);
   const flow=(points:number[][],end:number,color=amber)=> <Wire points={points} frame={f} active={f>=end-24&&f<end} progress={Math.max(0,Math.min(1,(f-end+24)/24))} color={color}/>;
-  const caption=audio.find(c=>f>=c.start*30&&f<(c.start+c.duration+.25)*30)?.captions.filter(c=>c.start*30<=f).at(-1)?.text??'';
   return <AbsoluteFill style={{background:paper,fontFamily:'Quorum Noto, sans-serif'}}>
     <svg viewBox='0 0 1920 1080' role='img' aria-label='PVE 存储机制：卷标识、插件、挂载与数据路径' style={{width:'100%',height:'100%'}}>
       <defs>{[blue,green,amber,purple].map(color=><marker key={color} id={`ha-${color.slice(1)}`} markerWidth='7' markerHeight='7' refX='6' refY='3' orient='auto'><path d='M0 0 L6 3 L0 6' fill='none' stroke={color} strokeWidth={1.5}/></marker>)}</defs>
       <Text x={60} y={48} size={21} bold color={green}>PVE 09 / STORAGE · CONTROL AND DATA</Text>
-      <Text x={60} y={112} size={43} bold>{['磁盘卷标识，怎样找到存储？','插件把配置变成本机可用资源','从卷标识，到 QEMU 可打开的文件','真正的磁盘数据，走另一条路径'][s.chapter]}</Text>
-      <Text x={60} y={161} size={24} color={muted}>单节点视角 · 已有 raw 镜像 · NFS 可用 · 初始未挂载 · 普通启动，无错误</Text>
+      <Text x={60} y={112} size={43} bold>{title??['磁盘卷标识，怎样找到存储？','插件把配置变成本机可用资源','从卷标识，到 QEMU 可打开的文件','真正的磁盘数据，走另一条路径'][s.chapter]}</Text>
+      <Text x={60} y={161} size={24} color={muted}>正常主线前提：已有 raw 镜像 · NFS 可用 · 初始未挂载 · 普通启动</Text>
+      {note&&<Text x={60} y={203} size={24} bold color={blue}>{note}</Text>}
+      <g opacity={dim?.10:1}>
       <rect x={60} y={220} width={1240} height={695} rx={24} fill='#e9efe9'/><Text x={90} y={255} size={24} bold>pve1 · 启动编排与宿主文件系统</Text>
       <rect x={1390} y={380} width={470} height={535} rx={24} fill='#f0ece3'/><Text x={1420} y={425} size={27} bold>NFS 服务器 · nas.example</Text>
       <g opacity={s.readRequested?.4:1}>
@@ -49,10 +50,16 @@ export function StoragePilot(){
         {flow([[1470,790],[1400,790],[1400,892],[960,892],[960,860]],b.returned,green)}
         {flow([[680,840],[560,840]],b.completed,green)}
       </g>
-      <Text x={960} y={958} size={28} bold center color={s.readCompleted?green:amber}>{s.readCompleted?'本次读取返回 ≠ 写入持久化或全部业务就绪':'配置与插件准备资源；运行时读写经 QEMU 和宿主内核'}</Text>
+      </g>
+      {children}
+      <Text x={960} y={958} size={28} bold center color={dim?amber:s.readCompleted?green:amber}>{footer??(s.readCompleted?'本次读取返回 ≠ 写入持久化或全部业务就绪':'配置与插件准备资源；运行时读写经 QEMU 和宿主内核')}</Text>
       <Text x={960} y={995} size={21} center color={muted}>紫：配置引用　金：启动准备　蓝 / 绿：读请求 / 数据返回　｜　配置共享 ≠ 磁盘数据共享</Text>
       <rect y={1010} width={1920} height={70} fill='#243f4b'/><Text x={960} y={1056} size={29} center bold color='#fffefa'>{caption}</Text>
     </svg>
-    {audio.map(c=><Sequence key={c.file} from={Math.round(c.start*30)} durationInFrames={Math.ceil(c.duration*30)}><Html5Audio src={staticFile(c.file)}/></Sequence>)}
   </AbsoluteFill>;
+}
+export function StoragePilot(){
+  const f=useCurrentFrame(),s=storageStateAt(f);
+  const caption=audio.find(c=>f>=c.start*30&&f<(c.start+c.duration+.25)*30)?.captions.filter(c=>c.start*30<=f).at(-1)?.text??'';
+  return <><StorageScene frame={f} state={s} caption={caption}/>{audio.map(c=><Sequence key={c.file} from={Math.round(c.start*30)} durationInFrames={Math.ceil(c.duration*30)}><Html5Audio src={staticFile(c.file)}/></Sequence>)}</>;
 }
