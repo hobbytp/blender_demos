@@ -54,6 +54,8 @@ nfs: nas
 
 交互入口 `http://127.0.0.1:5173/?sample=storage`。Composition `StoragePilot`，900 帧 / 30 fps / 1920×1080；`npm.cmd run render:storage` 输出 `out/storage-plugins-30s-v1.mp4`，并发 1、端口 3317。画面、状态、配音分别为 `src/StoragePilot.tsx`、`src/storage-timeline.ts`、`src/storage-{narration,audio}.json` 与 `public/audio/quorum-storage/`。
 
+交付时开发服务重启后页面请求超时，原因尚未定位；同一端口改为已构建版本的 `node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 5173`，HTTP 200 且完整交互复测通过。此预览服务读取 dist，修改源码后需先运行 `npm.cmd run build`；不把预览可用宣称为开发服务故障已修复。
+
 构建和 24 项测试通过，新增检查覆盖资源准备先于读取、逐跳因果顺序、900 帧正反向确定性、结果边界和旁白时间槽。
 
 - 浏览器四章跳转、关键状态正反向拖动、旁白、静音、暂停、末帧 899 停止及重播通过，页面错误 0。连续播放采样墙钟 11.9639 秒 / 视频 12.0667 秒，无音频倒退或重叠。
