@@ -1,0 +1,82 @@
+[
+  {
+    "start": 0,
+    "end": 7.5,
+    "duration": 5.592,
+    "file": "audio/quorum-storage/01.mp3",
+    "captions": [
+      {
+        "start": 0.096,
+        "text": "磁盘配置里的卷标识，"
+      },
+      {
+        "start": 1.786,
+        "text": "先定位存储配置，"
+      },
+      {
+        "start": 3.314,
+        "text": "再按类型选择插件。"
+      }
+    ]
+  },
+  {
+    "start": 7.5,
+    "end": 15,
+    "duration": 6.24,
+    "file": "audio/quorum-storage/02.mp3",
+    "captions": [
+      {
+        "start": 7.596,
+        "text": "本例使用网络文件存储。"
+      },
+      {
+        "start": 9.826,
+        "text": "插件确认挂载，"
+      },
+      {
+        "start": 11.331,
+        "text": "并检查镜像文件存在。"
+      }
+    ]
+  },
+  {
+    "start": 15,
+    "end": 22.5,
+    "duration": 6.432,
+    "file": "audio/quorum-storage/03.mp3",
+    "captions": [
+      {
+        "start": 15.096,
+        "text": "卷标识解析成本机路径，"
+      },
+      {
+        "start": 16.948,
+        "text": "交给虚拟机进程打开。"
+      },
+      {
+        "start": 19.12,
+        "text": "插件负责编排准备。"
+      }
+    ]
+  },
+  {
+    "start": 22.5,
+    "end": 30,
+    "duration": 6.984,
+    "file": "audio/quorum-storage/04.mp3",
+    "captions": [
+      {
+        "start": 22.596,
+        "text": "数据经过宿主文件系统，"
+      },
+      {
+        "start": 24.645,
+        "text": "再到存储服务器。"
+      },
+      {
+        "start": 26.435,
+        "text": "共享配置，不等于共享数据。"
+      }
+    ]
+  }
+]

@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "voice:storage": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py storage",
+    "render:storage": "remotion render src/remotion.tsx StoragePilot out/storage-plugins-30s-v1.mp4 --codec=h264 --concurrency=1 --timeout=120000 --port=3317",
     "voice:lifecycle-lesson": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py lifecycle-lesson",
     "render:lifecycle-lesson": "remotion render src/remotion.tsx LifecycleLesson out/vm-lifecycle-7min-v1.mp4 --codec=h264 --concurrency=1 --timeout=120000 --port=3317",
     "voice:lifecycle": "uv run --with edge-tts==7.2.8 python scripts/dark-narration.py lifecycle",

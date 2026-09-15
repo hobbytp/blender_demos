@@ -42,8 +42,11 @@ import {LifecyclePilot} from './LifecyclePilot';
 import {LIFECYCLE_DURATION} from './lifecycle-timeline';
 import {LifecycleLesson} from './LifecycleLesson';
 import {LIFECYCLE_LESSON_DURATION} from './lifecycle-lesson-timeline';
+import {StoragePilot} from './StoragePilot';
+import {STORAGE_DURATION} from './storage-timeline';
 function Root() {
   return <>
+    <Composition id='StoragePilot' component={StoragePilot} durationInFrames={STORAGE_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='LifecycleLesson' component={LifecycleLesson} durationInFrames={LIFECYCLE_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='LifecyclePilot' component={LifecyclePilot} durationInFrames={LIFECYCLE_DURATION} fps={FPS} width={1920} height={1080}/>
     <Composition id='RestoreLesson' component={RestoreLesson} durationInFrames={RESTORE_LESSON_DURATION} fps={FPS} width={1920} height={1080}/>
